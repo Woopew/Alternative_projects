@@ -1,0 +1,9 @@
+;
+;	mom35.s12
+;
+
+	ORG	$1000
+	LDAA	#$AA
+	PSHA
+	LDAA	#$55
+	PULA

@@ -1,0 +1,13 @@
+;
+;	indexed.s12
+;
+
+	ORG	$1000
+	LDX	#$3000
+start:	LDAB	$600
+	LDAA	B,X
+	STAA	$400
+	BRA	start
+	
+	ORG	$3000
+	FCB	$77,$22,$5B,$6B,$2E,$6D,$7D,$23,$7F,$2F

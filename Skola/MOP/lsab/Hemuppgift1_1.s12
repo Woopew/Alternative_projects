@@ -1,0 +1,28 @@
+;-------------------------------------------------------
+;
+;Hemuppgift 1.1 Labb 1
+;
+;-------------------------------------------------------
+		ORG		$1000
+		USE		Labdefs.s12
+		CLRA
+main:
+		STAA		$400
+		JSR		labb_delay
+		COMA
+		BRA		main
+
+labb_delay:
+START		CLRA
+DELAY		LDX		#DELAYCONST
+NEXT		LEAX		-1,X
+		LDY		#100
+		
+NEXT2		LEAY		-1,Y
+		CPY		#0
+		BNE		NEXT2
+		CPX		#0
+		BNE		NEXT
+		COMA
+		STAA		$400
+		BRA		DELAY

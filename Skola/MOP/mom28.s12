@@ -1,0 +1,14 @@
+;
+;	mom28.s12
+;
+
+	ORG	0
+	
+sym0:	
+	ORG	$4000
+sym4000:
+	ORG	$1000
+	LDAA	<sym0
+	LDAA	<sym4000
+	LDAA	>sym0
+	LDAA	>sym4000

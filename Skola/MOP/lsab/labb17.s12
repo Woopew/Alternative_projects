@@ -1,0 +1,72 @@
+	ORG	$1000
+	
+main:	JSR	GetPut
+	BRA	main
+	
+;----------------------------------------------
+;Subrutin GetPut, läser in från tangentbord och
+;skriver ut tecknet 6 ggr på ML3
+;Returvärde 
+;B = 0..F (hex), tangentkod
+;A = används för att räkna ner och skriva tecknet i B till ML3
+;B = FF iom ingen tangent är nedtryckt
+;inga andra register påverkas
+;----------------------------------------------
+	
+GetPut:
+	JSR	CheckKbd_First	;
+	CMPB	#$FF		;Kontrollerar så knapp har tryckts in
+	BEQ	GetPut		;om inte loopar tills knapp tryckts
+	JSR	DisplayML15	;Skriv till display
+	RTS
+
+;----------------------------------------------
+;Subrutin CheckKbd_First
+;Läser tangentbort via ML15
+;Returvärde i B
+;B = 0..F (hex), tangentkod
+;B = FF iom ingen tangent är nedtryckt
+;inga nadra register påverkas
+;----------------------------------------------
+
+CheckKbd_First:	
+	LDAB 	$9C0		;Läser av tangentbordet för att kontrollera om någon utav knapparna är nedtryckta,
+				
+	BMI	ingen_tangent	;Ifall ingen tangent är nedtryckt ses talet som ett negativt tal och hoppar då
+	PSHB
+ned_tryckt:
+	LDAB	$9C0	.	;Här kontrolleras ifall knappen fortfarande är nedtryckt och lopar tills kanppen
+	CMPB	#$10		;har släppts för att inte värdet skall ligga kvar och skrivas till B konstant
+	BLO	ned_tryckt	;
+	PULB
+	RTS
+ingen_tangent:
+	LDAB 	#$FF		;Ingen knappt har tryckts ned: FF --> B
+	RTS
+
+;----------------------------------------------
+;Subrutin DisplayML15, skriver tecken i register B
+;till display ML3
+;Returvärde 
+;B = 0..F (hex), tangentkod
+;A = används för att räkna ner och skriva tecknet i B till ML3
+;inga andra register påverkas
+;----------------------------------------------	
+
+DisplayML15:
+	LDAA	#1
+	STAA	$9C2		;Styrmode
+	LDAA	#$D0
+	STAA	$9C3		;Sätter styrregister för ML3
+	LDAA	#0
+	STAA	$9C2		;Datamode
+	
+	LDAA	#8		
+	
+loop:
+	STAB	$9C3		;skriver tecken till display
+	DECA	
+	BNE	loop
+	RTS
+			
+		

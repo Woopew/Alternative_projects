@@ -1,0 +1,421 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: main.lst
+                            1. ;-------------------------------------------------
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82\main.s12"
+                            2. ;		main.s12
+                            3. ;-------------------------------------------------
+                            4. 
+                            5. 		USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            6. ;--------------------------------------
+                            7. ;Labdefs.s12
+                            8. ;--------------------------------------
+                            9. 
+                           10. ;--------------------------------------
+                           11. ; ML15 Avsnitt 2
+                           12. ;--------------------------------------
+                           13. 
+       0000 09C0           14. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           15. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           16. ML15_DisplayData	EQU	$9C3
+       0000 0C02           17. ML5_Segments		EQU	$C02
+       0000 0C03           18. ML5_Position		EQU	$C03
+       0000 0C00           19. ML5_Rows		EQU	$C00
+       0000 0C01           20. ML5_Colums		EQU	$C01
+                           21. 
+                           22. ;--------------------------------------
+                           23. ;Skrivare avsnitt 3
+                           24. ;--------------------------------------
+                           25. 
+                           26. ;	ML19 definitioner
+       0000 0DC0           27. ML19_Stat		EQU	$0DC0
+                           28. ;	Kvittera händelse 1	
+       0000 0DC2           29. ML19_AckIrq_1		EQU	$0DC2
+                           30. ;	Nollställ händelse 2
+       0000 0DC3           31. ML19_AckIrq_2		EQU	$0DC3
+                           32. 
+                           33. ;---------------------------------------
+                           34. ;Borr avsnitt 4
+                           35. ;---------------------------------------
+                           36. 
+                           37. ;	Adress till omkopplare och Display Borr
+       0000 0600           38. DipSwitch		EQU	$0600
+       0000 0700           39. HexDisplay		EQU	$0700
+                           40. ;	Adress till borrmaskinens styrregister
+       0000 0400           41. DrillControl		EQU	$0400
+                           42. 
+                           43. ;	Borrmaskinens statusregister
+       0000 0401           44. DrillStatus		EQU	$0401000000                     45. 		
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82\main.s12"
+000000                     46. 		
+001000                     47. 		ORG	$1000
+001000                     48. 		
+001000                     49. main:
+001000 18 0B 00 04 00      50. 		MOVB	#$00,DrillControl
+001005 18 0B 00 11 6E      51. 		MOVB	#$00,DCshadow
+                           52. 
+                           53. 
+00100A                     54. main_loop:
+00100A 16 10 2F            55. 		JSR	GetKbdML15
+00100D 16 10 12            56. 		JSR	Command
+001010 20 F8               57. 		BRA	main_loop
+                           58. ;-------------------------------------------------	
+001012 C1 07               59. Command:	CMPB	#7
+001014 22 08               60. 		BHI	CommandExit
+001016 CE 10 1F            61. 		LDX	#JUMPTAB
+001019 58                  62. 		ASLB
+00101A                     63. 		LDX	B,X
+00101C 15 00               64. 		JSR	,X
+00101E                     65. 		
+00101E 3D                  66. CommandExit:	RTS
+                           67. ;-------------------------------------------------
+00101F 10 76 10 8C 10 96   68. JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
+       10 9C            
+001027 10 A7 10 E5 10 F1   69. 		FDB	Step,DrillHole,RefPos,DoAuto
+       11 07            
+                           70. ;-------------------------------------------------
+                           71. 
+                           72. 		USE	ML15drvr.s12
+---- File: "ML15drvr.s12"
+                           73. ;---------------------------------------
+                           74. ;	KeyboardML15.s12
+                           75. ;---------------------------------------
+                           76. 	USE	labdefs.s12
+---- File: "labdefs.s12"
+                           77. ;--------------------------------------
+                           78. ;Labdefs.s12
+                           79. ;--------------------------------------
+                           80. 
+                           81. ;--------------------------------------
+                           82. ; ML15 Avsnitt 2
+                           83. ;--------------------------------------
+                           84. 
+       0000 09C0           85. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           86. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           87. ML15_DisplayData	EQU	$9C3
+       0000 0C02           88. ML5_Segments		EQU	$C02
+       0000 0C03           89. ML5_Position		EQU	$C03
+       0000 0C00           90. ML5_Rows		EQU	$C00
+       0000 0C01           91. ML5_Colums		EQU	$C01
+                           92. 
+                           93. ;--------------------------------------
+                           94. ;Skrivare avsnitt 3
+                           95. ;--------------------------------------
+                           96. 
+                           97. ;	ML19 definitioner
+       0000 0DC0           98. ML19_Stat		EQU	$0DC0
+                           99. ;	Kvittera händelse 1	
+       0000 0DC2          100. ML19_AckIrq_1		EQU	$0DC2
+                          101. ;	Nollställ händelse 2
+       0000 0DC3          102. ML19_AckIrq_2		EQU	$0DC3
+                          103. 
+                          104. ;---------------------------------------
+                          105. ;Borr avsnitt 4
+                          106. ;---------------------------------------
+                          107. 
+                          108. ;	Adress till omkopplare och Display Borr
+       0000 0600          109. DipSwitch		EQU	$0600
+       0000 0700          110. HexDisplay		EQU	$0700
+                          111. ;	Adress till borrmaskinens styrregister
+       0000 0400          112. DrillControl		EQU	$0400
+                          113. 
+                          114. ;	Borrmaskinens statusregister
+       0000 0401          115. DrillStatus		EQU	$0401                          116. ;		ORG	$1000
+---- File: "ML15drvr.s12"
+                          117. ;
+                          118. ;start:		JSR	GetKbdML15
+                          119. ;		BRA	start
+                          120. ;-----------------------------------			
+00102F 16 10 37           121. GetKbdML15:	JSR	CheckKbdML15
+001032 C1 FF              122. 		CMPB	#$FF
+001034 27 F9              123. 		BEQ	GetKbdML15
+001036 3D                 124. 		RTS
+                          125. ;-----------------------------------
+001037 F6 09 C0           126. CheckKbdML15:	LDAB	ML15_KeyBoardRegister
+00103A 2B 0A              127. 		BMI	inget
+00103C 37                 128. 		PSHB
+00103D                    129. 		
+00103D F6 09 C0           130. knapp_tryck:	LDAB	ML15_KeyBoardRegister
+001040 C1 10              131. 		CMPB	#$10
+001042 25 F9              132. 		BLO	knapp_tryck
+001044 33                 133. 		PULB
+001045 3D                 134. 		RTS
+001046                    135. 		
+001046 C6 FF              136. inget:		LDAB	#$FF
+001048 3D                 137. 		RTS
+                          138. ;-----------------------------------
+001049                    139. DisplayML15:
+001049 86 01              140. 	LDAA	#1
+00104B 7A 09 C2           141. 	STAA	ML15_DisplayMode		;Styrmode
+00104E 86 D0              142. 	LDAA	#$D0
+001050 7A 09 C3           143. 	STAA	ML15_DisplayData		;Sätter styrregister för ML3
+001053 86 00              144. 	LDAA	#0
+001055 7A 09 C2           145. 	STAA	ML15_DisplayMode		;Datamode
+001058                    146. 	
+001058 86 08              147. 	LDAA	#8		
+00105A                    148. 	
+00105A                    149. loop:
+00105A 7B 09 C3           150. 	STAB	ML15_DisplayData		;skriver tecken till display
+00105D 43                 151. 	DECA	
+00105E 26 FA              152. 	BNE	loop
+001060 3D                 153. 	RTS
+001061                    154. 			                          155. 		USE	Subroutines.s12
+---- File: "Subroutines.s12"
+                          156. ;--------------------------------------------------------------
+                          157. ;		Subroutines.s12
+                          158. ;--------------------------------------------------------------
+                          159. 		USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                          160. ;--------------------------------------
+                          161. ;Labdefs.s12
+                          162. ;--------------------------------------
+                          163. 
+                          164. ;--------------------------------------
+                          165. ; ML15 Avsnitt 2
+                          166. ;--------------------------------------
+                          167. 
+       0000 09C0          168. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2          169. ML15_DisplayMode	EQU	$9C2
+       0000 09C3          170. ML15_DisplayData	EQU	$9C3
+       0000 0C02          171. ML5_Segments		EQU	$C02
+       0000 0C03          172. ML5_Position		EQU	$C03
+       0000 0C00          173. ML5_Rows		EQU	$C00
+       0000 0C01          174. ML5_Colums		EQU	$C01
+                          175. 
+                          176. ;--------------------------------------
+                          177. ;Skrivare avsnitt 3
+                          178. ;--------------------------------------
+                          179. 
+                          180. ;	ML19 definitioner
+       0000 0DC0          181. ML19_Stat		EQU	$0DC0
+                          182. ;	Kvittera händelse 1	
+       0000 0DC2          183. ML19_AckIrq_1		EQU	$0DC2
+                          184. ;	Nollställ händelse 2
+       0000 0DC3          185. ML19_AckIrq_2		EQU	$0DC3
+                          186. 
+                          187. ;---------------------------------------
+                          188. ;Borr avsnitt 4
+                          189. ;---------------------------------------
+                          190. 
+                          191. ;	Adress till omkopplare och Display Borr
+       0000 0600          192. DipSwitch		EQU	$0600
+       0000 0700          193. HexDisplay		EQU	$0700
+                          194. ;	Adress till borrmaskinens styrregister
+       0000 0400          195. DrillControl		EQU	$0400
+                          196. 
+                          197. ;	Borrmaskinens statusregister
+       0000 0401          198. DrillStatus		EQU	$0401                          199. ;---------------------------------------------
+---- File: "Subroutines.s12"
+001061 51                 200. Outzero:	COMB
+001062 F4 11 6E           201. 		ANDB	DCshadow
+001065 7B 11 6E           202. 		STAB	DCshadow
+001068 7B 04 00           203. 		STAB	DrillControl
+00106B 3D                 204. 		RTS	
+                          205. ;---------------------------------------------		
+00106C FA 11 6E           206. Outone:		ORAB	DCshadow
+00106F 7B 11 6E           207. 		STAB	DCshadow
+001072 7B 04 00           208. 		STAB	DrillControl
+001075 3D                 209. 		RTS
+                          210. ;---------------------------------------------
+001076 36                 211. MotorStart:	PSHA
+001077 37                 212. 		PSHB
+001078 B6 11 6E           213. 		LDAA	DCshadow
+00107B 81 04              214. 		CMPA	#4
+00107D 27 0A              215. 		BEQ	MSklar
+00107F C6 04              216. 		LDAB	#4
+001081 16 10 6C           217. 		JSR	Outone
+001084 C6 06              218. 		LDAB	#6
+001086 16 11 5F           219. 		JSR	Delay
+001089 32                 220. MSklar:		PULA
+00108A 33                 221. 		PULB
+00108B 3D                 222. 		RTS
+                          223. ;---------------------------------------------
+00108C 36                 224. MotorStop:	PSHA
+00108D 37                 225. 		PSHB
+00108E C6 04              226. 		LDAB	#4
+001090 16 10 61           227. 		JSR	Outzero
+001093 32                 228. 		PULA
+001094 33                 229. 		PULB
+001095 3D                 230. 		RTS
+                          231. ;---------------------------------------------
+001096 C6 08              232. DrillDown:	LDAB	#8
+001098 16 10 6C           233. 		JSR	Outone
+00109B 3D                 234. 		RTS
+                          235. ;---------------------------------------------
+00109C C6 08              236. DrillUp:	LDAB	#%00001000
+00109E 16 10 61           237. 		JSR	Outzero
+0010A1 C6 04              238. 		LDAB	#4
+0010A3 16 11 5F           239. 		JSR	Delay
+0010A6 3D                 240. 		RTS
+                          241. ;---------------------------------------------
+0010A7 F6 04 01           242. Step:		LDAB	DrillStatus
+0010AA C1 03              243. 		CMPB	#3
+0010AC 22 13              244. 		BHI	Larmu
+0010AE C6 03              245. 		LDAB	#3
+0010B0 16 10 6C           246. 		JSR	Outone
+0010B3 C6 04              247. 		LDAB	#4
+0010B5 16 11 5F           248. 		JSR	Delay
+0010B8 C6 03              249. 		LDAB	#3
+0010BA 16 10 61           250. 		JSR	Outzero
+0010BD C6 01              251. 		LDAB	#1
+0010BF 20 07              252. 		BRA	StepKlar
+0010C1                    253. 		
+0010C1 C6 02              254. Larmu:		LDAB	#2
+0010C3 16 11 3E           255. 		JSR	Alarm
+0010C6 C6 00              256. 		LDAB	#0
+0010C8                    257. 		
+0010C8 3D                 258. StepKlar	RTS
+                          259. ;---------------------------------------------
+0010C9 86 14              260. DrillDownTest:	LDAA	#20
+                          261. 
+0010CB F6 04 01           262. NoHoleYet:	LDAB	DrillStatus
+0010CE C1 03              263. 		CMPB	#3
+0010D0 22 10              264. 		BHI	Hole
+0010D2 C6 03              265. 		LDAB	#3
+0010D4 16 11 5F           266. 		JSR	Delay
+0010D7 43                 267. 		DECA
+0010D8 22 F1              268. 		BHI	NoHoleYet
+0010DA C6 02              269. 		LDAB	#2
+0010DC 16 11 3E           270. 		JSR	Alarm
+0010DF C6 00              271. 		LDAB	#0
+0010E1 3D                 272. 		RTS
+0010E2                    273. 		
+0010E2 C6 01              274. Hole:		LDAB	#1
+0010E4 3D                 275. 		RTS
+                          276. ;---------------------------------------------
+0010E5 16 10 96           277. DrillHole:	JSR	DrillDown
+0010E8 16 10 C9           278. 		JSR	DrillDownTest
+0010EB 37                 279. 		PSHB
+0010EC 16 10 9C           280. 		JSR	DrillUp
+0010EF 33                 281. 		PULB
+0010F0 3D                 282. 		RTS
+                          283. ;---------------------------------------------
+0010F1 F6 04 01           284. RefPos:		LDAB	DrillStatus
+0010F4 C4 01              285. 		ANDB	#1
+0010F6 C1 01              286. 		CMPB	#1
+0010F8 27 0A              287. 		BEQ	Ref
+0010FA 16 10 A7           288. 		JSR	Step
+0010FD C1 01              289. 		CMPB	#1
+0010FF 27 F0              290. 		BEQ	RefPos
+001101 C6 00              291. 		LDAB	#0
+001103 3D                 292. 		RTS
+001104                    293. 		
+001104 C6 01              294. Ref:		LDAB	#1
+001106 3D                 295. 		RTS
+                          296. ;---------------------------------------------
+001107 16 10 F1           297. DoAuto:		JSR	RefPos
+00110A D7                 298. 		TSTB
+00110B 27 19              299. 		BEQ	InteRef
+00110D 16 10 76           300. 		JSR	MotorStart
+001110 CE 11 6F           301. 		LDX	#Pattern
+001113                    302. 		
+001113                    303. Nope:		LDAB	,X
+001115 08                 304. 		INX
+001116 C1 FF              305. 		CMPB	#$FF
+001118 27 0C              306. 		BEQ	InteRef
+00111A 16 11 2A           307. 		JSR	Nstep
+00111D D7                 308. 		TSTB
+00111E 27 06              309. 		BEQ	InteRef
+001120 16 10 E5           310. 		JSR	DrillHole
+001123 D7                 311. 		TSTB
+001124 26 ED              312. 		BNE	Nope
+001126                    313. 		
+001126 16 10 8C           314. InteRef:	JSR	MotorStop
+001129 3D                 315. 		RTS
+                          316. ;---------------------------------------------
+00112A D7                 317. Nstep:		TSTB
+00112B 27 0E              318. 		BEQ	Ndone
+00112D 53                 319. 		DECB
+00112E 37                 320. 		PSHB
+00112F 16 10 A7           321. 		JSR	Step
+001132 D7                 322. 		TSTB
+001133 27 03              323. 		BEQ	NFel
+001135 33                 324. 		PULB
+001136 20 F2              325. 		BRA	Nstep
+001138                    326. 		
+001138 C6 00              327. NFel:		LDAB	#0
+00113A 3D                 328. 		RTS
+00113B                    329. 		
+00113B C6 01              330. Ndone:		LDAB	#1
+00113D 3D                 331. 		RTS
+                          332. ;---------------------------------------------
+00113E                    333. Alarm:		
+00113E D7                 334. 		TSTB
+00113F 27 1D              335. 		BEQ	AlarmKlar
+001141                    336. 		
+001141 37                 337. AlarmLoop:	PSHB
+001142 C6 10              338. 		LDAB	#16
+001144 16 10 6C           339. 		JSR	Outone
+001147 C6 06              340. 		LDAB	#6
+001149 16 11 5F           341. 		JSR	Delay
+00114C C6 10              342. 		LDAB	#16
+00114E 16 10 61           343. 		JSR	Outzero
+001151 33                 344. 		PULB
+001152 53                 345. 		DECB
+001153 27 09              346. 		BEQ	AlarmKlar
+001155 37                 347. 		PSHB
+001156 C6 04              348. 		LDAB	#4
+001158 16 11 5F           349. 		JSR	Delay
+00115B 33                 350. 		PULB
+00115C 20 E3              351. 		BRA	AlarmLoop
+00115E                    352. 		
+00115E 3D                 353. AlarmKlar:	RTS
+                          354. ;---------------------------------------------                          355. 		USE	Delay.s12
+---- File: "Delay.s12"
+                          356. ;
+                          357. ;	Delay.s12
+                          358. ;
+                          359. ;-----------------------------------------
+                          360. #define RUNFAST
+                          361. #ifdef RUNFAST
+       0000 0003          362. DelayConst	EQU	$3
+                          365. #endif
+                          366. 
+                          367. 
+                          368. ;start:
+                          369. ;		ORG	$1000
+                          370. ;		
+                          371. ;		CLRA
+                          372. ;	
+                          373. ;main:		LDAB	#DelayConst
+                          374. ;		JSR	Delay
+                          375. ;		STAA	$400
+                          376. ;		COMA
+                          377. ;		BRA	main
+                          378. ;------------------------------------------
+                          379. ;---------------------------------------------------------
+                          380. ;Subrutinen Delay
+                          381. 
+                          382. ;---------------------------------------------------------
+                          383. ;åstakommer fördröjning av program.
+                          384. ;Fördröjningen utförs i steg om 0,25sekunders intervall.
+                          385. ;Indata:
+                          386. ;	Register B: antal fördröjningar om 0,25s vardera.
+                          387. ;Registerpåverkan:
+                          388. ;	Register B innehåller alltid 0 efter subrutinen.
+                          389. ;	Inga andra register påverkas.
+                          390. 
+00115F                    391. Delay:
+00115F D7                 392. 		TSTB
+001160 27 0B              393. 		BEQ	Stopdelay
+001162 37                 394. 		PSHB
+001163 C6 FF              395. 		LDAB	#255
+001165                    396. Delay_1:
+001165 D7                 397. 		TSTB
+001166 53                 398. 		DECB
+001167                    399. 		
+001167 26 FC              400. 		BNE 	Delay_1
+001169 33                 401. 		PULB
+00116A 53                 402. 		DECB
+00116B 20 F2              403. 		BRA	Delay
+00116D                    404. Stopdelay:	
+00116D 3D                 405. 		RTS
+00116E                    406. 		00116E                    407. 		
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82\main.s12"
+00116E 00                 408. DCshadow	RMB	1
+00116F 00 01 01 01 01 01  409. Pattern		FCB	0,1,1,1,1,1,1,1,2,1,5,2,2,2,2,4,4,3,8,2,$FF       01 01 02 01 05 02
+       02 02 02 04 04 03
+       08 02 FF         

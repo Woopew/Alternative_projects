@@ -1,0 +1,19 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom18.lst
+                            1. ;
+                            2. ;		mom18.s12
+                            3. ;
+                            4. 
+       0000 0600            5. InPort		EQU	$600
+       0000 0400            6. OutPort		EQU	$400
+000000                      7. 	
+001000                      8. 		ORG 	$1000
+001000 FC 06 00             9. Start:		LDD	InPort
+001003 CD 00 1E            10. 		LDY	#30
+001006 18 13               11. 		EMULS	
+001008 7D 04 00            12. 		STY	OutPort	;mest sign
+00100B 7C 04 00            13. 		STD	OutPort	;minst sign	
+00100E 06 10 00            14. 		JMP	Start

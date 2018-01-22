@@ -1,0 +1,11 @@
+;
+;	mom1.s12
+;
+InPort	EQU	$600
+OutPort	EQU	$400
+	ORG	$1000
+start:	LDAA	InPort
+	EORA	#$0F
+	STAA	OutPort
+	JMP	start
+	

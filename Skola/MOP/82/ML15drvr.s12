@@ -1,0 +1,43 @@
+;---------------------------------------
+;	KeyboardML15.s12
+;---------------------------------------
+	USE	labdefs.s12
+;		ORG	$1000
+;
+;start:		JSR	GetKbdML15
+;		BRA	start
+;-----------------------------------			
+GetKbdML15:	JSR	CheckKbdML15
+		CMPB	#$FF
+		BEQ	GetKbdML15
+		RTS
+;-----------------------------------
+CheckKbdML15:	LDAB	ML15_KeyBoardRegister
+		BMI	inget
+		PSHB
+		
+knapp_tryck:	LDAB	ML15_KeyBoardRegister
+		CMPB	#$10
+		BLO	knapp_tryck
+		PULB
+		RTS
+		
+inget:		LDAB	#$FF
+		RTS
+;-----------------------------------
+DisplayML15:
+	LDAA	#1
+	STAA	ML15_DisplayMode		;Styrmode
+	LDAA	#$D0
+	STAA	ML15_DisplayData		;Sätter styrregister för ML3
+	LDAA	#0
+	STAA	ML15_DisplayMode		;Datamode
+	
+	LDAA	#8		
+	
+loop:
+	STAB	ML15_DisplayData		;skriver tecken till display
+	DECA	
+	BNE	loop
+	RTS
+			

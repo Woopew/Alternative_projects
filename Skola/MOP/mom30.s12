@@ -1,0 +1,21 @@
+;
+;	mom30.s12
+;
+
+	
+	
+start:	ORG	$1000
+	LDX	#$3000
+	LDAA	0,X
+	LDAA	1,X
+	LDAA	2,X
+	LDAA	3,X
+	LDAA	4,X
+	LDAA	5,X
+	LDAA	6,X
+	LDAA	7,X
+	LDAA	8,X
+	LDAA	9,X
+	
+	ORG	$3000
+	FCB	$77,$22,$5B,$6B,$2E,$6D,$7D,$23,$7F,$2F

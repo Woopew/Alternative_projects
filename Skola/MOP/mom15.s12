@@ -1,0 +1,14 @@
+;
+;		mom16.s12
+;
+
+InPort		EQU	$600
+OutPort		EQU	$400
+	
+		ORG 	$1000
+Start:		CLRA
+		CLRB
+		LDD	InPort
+		ADDD	#150
+		STD	OutPort		;resten
+		JMP	Start

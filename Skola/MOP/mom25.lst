@@ -1,0 +1,13 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom25.lst
+                            1. ;
+                            2. ;	mom25.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 01 02 03 04 05 06    6. 	FCB	1,2,3,4,5,6,7,8,9
+       07 08 09         
+001009                      7. end:

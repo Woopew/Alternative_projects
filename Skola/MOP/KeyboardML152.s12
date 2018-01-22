@@ -1,0 +1,33 @@
+;
+;	KeyboardML15.s12
+;
+
+		ORG	$1000
+
+start:		JSR	CheckKbd_First
+		;CMPB	#$FF
+		;BEQ
+		;NOP
+		JSR	GetKbd_First
+		BRA	start
+;-----------------------------------			
+GetKbd_First:
+		CMPB	#$FF
+		BEQ	CheckKbd_First	
+		RTS
+			
+CheckKbd_First:	LDAB	$9C0
+		
+		BMI	inget
+		PSHB
+		
+knapp_tryck:	LDAB	$9C0
+		CMPB	#$10
+		BLO	knapp_tryck
+		PULB
+		RTS
+		
+inget:		LDAB	#$FF
+		RTS
+		
+			

@@ -1,0 +1,24 @@
+;
+;	Delay.s12
+;
+
+		ORG	$1000
+start:		
+Delay:		LDX	#3000
+Next		DEX
+		BNE	Next
+		STAA	$400
+		COMA
+		BRA	Delay
+
+;----------------------------------
+;Subrutinen Delay
+;åstakommer fördröjning av program.
+;Fördröjningen utförs i steg om 0,25sekunders intervall.
+;Indata:
+;	Register B: antal fördröjningar om 0,25s vardera.
+;Registerpåverkan:
+;	Register B innehåller alltid 0 efter subrutinen.
+;	Inga andra register påverkas.
+
+

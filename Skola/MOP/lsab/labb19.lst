@@ -1,0 +1,96 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: labb19.lst
+                            1. ;----------------------------------------------------
+---- File: "Z:\MOP\lsab\labb19.s12"
+                            2. ;		**labb19.s12**
+                            3. ;Finslipning av fördröjningsrutin med 250ms delay
+                            4. ;Delaykonstanten ligger i Labdefs.s12
+                            5. ;----------------------------------------------------
+                            6. 	USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            7. ;--------------------------------------
+                            8. ;Labdefs.s12
+                            9. ;--------------------------------------
+                           10. 
+                           11. ;--------------------------------------
+                           12. ; ML15 Avsnitt 2
+                           13. ;--------------------------------------
+                           14. 
+       0000 09C0           15. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           16. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           17. ML15_DisplayData	EQU	$9C3
+       0000 0C02           18. ML5_Segments		EQU	$C02
+       0000 0C03           19. ML5_Position		EQU	$C03
+       0000 0C00           20. ML5_Rows		EQU	$C00
+       0000 0C01           21. ML5_Colums		EQU	$C01
+                           22. 
+                           23. ;--------------------------------------
+                           24. ;Skrivare avsnitt 3
+                           25. ;--------------------------------------
+                           26. 
+                           27. ;	ML19 definitioner
+       0000 0DC0           28. ML19_Stat		EQU	$0DC0
+                           29. ;	Kvittera händelse 1	
+       0000 0DC2           30. ML19_AckIrq_1		EQU	$0DC2
+                           31. ;	Nollställ händelse 2
+       0000 0DC3           32. ML19_AckIrq_2		EQU	$0DC3
+                           33. 
+                           34. ;---------------------------------------
+                           35. ;Borr avsnitt 4
+                           36. ;---------------------------------------
+                           37. 
+                           38. ;	Adress till omkopplare och Display Borr
+                           39. ;DipSwitch		EQU	$0600
+       0000 0700           40. HexDisplay		EQU	$0700
+                           41. ;	Adress till borrmaskinens styrregister
+       0000 0400           42. DrillControll		EQU	$0400
+                           43. 
+                           44. ;	Borrmaskinens statusregister
+       0000 0600           45. DrillStatus		EQU	$0600
+                           46. 
+                           47. ;-------------------------------------------
+                           48. ;LABB
+                           49. ;-------------------------------------------
+000000                     50. #ifdef		LABBSYSTEM
+                           56. #else
+       0000 18EF           57. DELAYCONST	EQU	$18EF;C7F	;KONSTANT FÖR LABBSYSTEMET 18EF = 500 ms C7F = 250 ms
+                           58. #endif                           59. 	#DEFINE	LABBSYSTEM	;Definerar simulator för att få rätt delatkonstant
+---- File: "Z:\MOP\lsab\labb19.s12"
+000000                     60. 	
+001000                     61. 	ORG	$1000
+001000 87                  62. 	CLRA
+001001                     63. main:
+001001 A7                  64. 	NOP	
+001002 16 10 13            65. 	JSR	labb_delay	;Fördröjningssubrutin
+001005 81 08               66. 	CMPA	#8		;Jämför värde för att skifta bit3 1->0 o vice versa
+001007 27 07               67. 	BEQ	clear
+001009 86 08               68. 	LDAA	#8
+00100B 7A 04 00            69. store	STAA	$400		;Skriver till borrens controlregister
+00100E 20 F1               70. 	BRA 	main
+001010 87                  71. clear	CLRA	
+001011 27 F8               72. 	BEQ	store
+001013                     73. 	
+                           74. ;-------------------------------------------------------
+                           75. ;Subrutin: labb_delay: Delayfunktion för labbsystemet som
+                           76. ;fördröjer efter satt konstant
+                           77. ;Returvärde: Inget
+                           78. ;Register som påverkas: X, Y
+                           79. ;Indata: Delaykonstant från Labdefs.s12
+                           80. ;-------------------------------------------------------
+                           81. 
+                           82. 
+001013                     83. labb_delay:
+001013                     84. 		
+001013 CE 18 EF            85. DELAY		LDX		#DELAYCONST	;Laddar delaykonstant från Labdefs.s12
+001016 1A 1F               86. NEXT		LEAX		-1,X		;Minskar delaykonstanten (Yttre loop)
+001018 CD 00 64            87. 		LDY		#100		;laddar Y med värde till inre loop
+00101B                     88. 		
+00101B 19 5F               89. NEXT2		LEAY		-1,Y		;minskar Y (inre loop)
+00101D 8D 00 00            90. 		CPY		#0
+001020 26 F9               91. 		BNE		NEXT2		;loopar tlls Y = 0
+001022 8E 00 00            92. 		CPX		#0		;(Yttre loop) Loopar tills X = 0
+001025 26 EF               93. 		BNE		NEXT
+001027 3D                  94. 		RTS				;Slut delay

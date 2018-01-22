@@ -1,0 +1,17 @@
+;
+;	mom34.s12
+;
+
+	ORG	$1000
+start:	LDS	#$3C80
+	JSR	sub1
+	JSR	sub2
+
+stop:	BRA	stop
+
+sub1:	LDAB	#1
+	RTS
+
+sub2:	LDAB	#2
+	RTS
+	

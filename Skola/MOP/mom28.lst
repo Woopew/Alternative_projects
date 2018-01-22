@@ -1,0 +1,22 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom28.lst
+                            1. ;
+                            2. ;	mom28.s12
+                            3. ;
+                            4. 
+000000                      5. 	ORG	0
+000000                      6. 	
+000000                      7. sym0:	
+004000                      8. 	ORG	$4000
+004000                      9. sym4000:
+001000                     10. 	ORG	$1000
+001000 96 00               11. 	LDAA	<sym0
+"C:/Users/Sandin/Desktop/assembler mop/mom28.s12" line 12, ERROR: 8-bit direct-page offset truncated
+001002 96 00               12. 	LDAA	<sym4000
+001004 B6 00 00            13. 	LDAA	>sym0
+001007 B6 40 00            14. 	LDAA	>sym4000
+
+****** Total Errors: 1

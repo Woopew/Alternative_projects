@@ -1,0 +1,18 @@
+QAflisp - FLISP Absolute crossassembler, Version RC:9
+(c) GMV 1989-2014
+
+
+File: uppg1bok.lst
+                        1. ;
+                        2. ;	mom1.s12
+                        3. ;
+00                      4. 	ORG	$1000
+"Z:/MOP/uppg1bok.sflisp" line 5, ERROR: Illegal mnemonic
+00                      5. start:	LDAA	$600
+"Z:/MOP/uppg1bok.sflisp" line 6, ERROR: Word sized operand/data truncated
+00                      6. 	STA	$400
+"Z:/MOP/uppg1bok.sflisp" line 7, ERROR: Word sized operand/data truncated
+02                      7. 	JMP	start
+04                      8. 	
+
+****** Total Errors: 3

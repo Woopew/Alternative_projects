@@ -1,0 +1,48 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: ML15drvr.lst
+                            1. ;---------------------------------------
+                            2. ;	KeyboardML15.s12
+                            3. ;---------------------------------------
+                            4. 
+                            5. ;		ORG	$1000
+                            6. ;
+                            7. ;start:		JSR	GetKbdML15
+                            8. ;		BRA	start
+                            9. ;-----------------------------------			
+000000 16 00 08            10. GetKbdML15:	JSR	CheckKbdML15
+000003 C1 FF               11. 		CMPB	#$FF
+000005 27 F9               12. 		BEQ	GetKbdML15
+000007 3D                  13. 		RTS
+                           14. ;-----------------------------------
+000008 F6 09 C0            15. CheckKbdML15:	LDAB	$9C0
+00000B 2B 0A               16. 		BMI	inget
+00000D 37                  17. 		PSHB
+00000E                     18. 		
+00000E F6 09 C0            19. knapp_tryck:	LDAB	$9C0
+000011 C1 10               20. 		CMPB	#$10
+000013 25 F9               21. 		BLO	knapp_tryck
+000015 33                  22. 		PULB
+000016 3D                  23. 		RTS
+000017                     24. 		
+000017 C6 FF               25. inget:		LDAB	#$FF
+000019 3D                  26. 		RTS
+                           27. ;-----------------------------------
+00001A                     28. DisplayML15:
+00001A 86 01               29. 	LDAA	#1
+00001C 7A 09 C2            30. 	STAA	$9C2		;Styrmode
+00001F 86 D0               31. 	LDAA	#$D0
+000021 7A 09 C3            32. 	STAA	$9C3		;Sätter styrregister för ML3
+000024 86 00               33. 	LDAA	#0
+000026 7A 09 C2            34. 	STAA	$9C2		;Datamode
+000029                     35. 	
+000029 86 08               36. 	LDAA	#8		
+00002B                     37. 	
+00002B                     38. loop:
+00002B 7B 09 C3            39. 	STAB	$9C3		;skriver tecken till display
+00002E 43                  40. 	DECA	
+00002F 26 FA               41. 	BNE	loop
+000031 3D                  42. 	RTS
+000032                     43. 			

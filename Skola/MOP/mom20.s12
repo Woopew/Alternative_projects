@@ -1,0 +1,12 @@
+;
+;		mom20.s12
+;
+
+InPort		EQU	$600
+OutPort		EQU	$400
+	
+		ORG 	$1000
+		LDAA	InPort
+Start:		LSRA
+		STAA	OutPort			
+		JMP	Start

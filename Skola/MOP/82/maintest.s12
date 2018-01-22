@@ -1,0 +1,57 @@
+;
+;		main.s12
+;-------------------------------------------------
+
+		USE	Labdefs.s12
+		
+		
+		ORG	$1000
+		
+main:
+		MOVB	#$00,DrillControl
+		MOVB	#$00,DCshadow
+
+
+main_loop:
+		JSR	GetKbdML15
+		JSR	Command
+		BRA	main_loop
+;-------------------------------------------------	
+Command:	CMPB	#7
+		BHI	CommandExit
+		LDX	#JUMPTAB
+		ASLB
+		LDX	B,X
+		JSR	,X
+		
+CommandExit:	RTS
+;-------------------------------------------------
+JUMPTAB		FDB	MotorStart,MotorStop,DrillDown,DrillUp
+		FDB	Step,DrillHole,RefPos,DoAuto
+;-------------------------------------------------
+;test
+;--------
+
+Outport		EQU	$700
+
+MotorStart:	MOVB	#0,Outport
+		RTS
+MotorStop:	MOVB	#1,Outport
+		RTS
+DrillDown:	MOVB	#2,Outport
+		RTS	
+DrillUp:	MOVB	#3,Outport
+		RTS
+Step:		MOVB	#4,Outport
+		RTS
+DrillHole:	MOVB	#5,Outport
+		RTS
+RefPos:		MOVB	#6,Outport
+		RTS
+DoAuto:		MOVB	#7,Outport
+		RTS
+;-------------------------------------------------
+		USE	ML15drvr.s12
+	;	USE	----
+		
+DCshadow	RMB	1

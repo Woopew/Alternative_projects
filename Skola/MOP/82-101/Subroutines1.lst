@@ -1,0 +1,78 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Subroutines1.lst
+                            1. ;
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82-101\Subroutines1.s12"
+                            2. ;		Subroutines.s12
+                            3. ;
+                            4. 		USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            5. ;--------------------------------------
+                            6. ;Labdefs.s12
+                            7. ;--------------------------------------
+                            8. 
+                            9. ;--------------------------------------
+                           10. ; ML15 Avsnitt 2
+                           11. ;--------------------------------------
+                           12. 
+       0000 09C0           13. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           14. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           15. ML15_DisplayData	EQU	$9C3
+       0000 0C02           16. ML5_Segments		EQU	$C02
+       0000 0C03           17. ML5_Position		EQU	$C03
+       0000 0C00           18. ML5_Rows		EQU	$C00
+       0000 0C01           19. ML5_Colums		EQU	$C01
+                           20. 
+                           21. ;--------------------------------------
+                           22. ;Skrivare avsnitt 3
+                           23. ;--------------------------------------
+                           24. 
+                           25. ;	ML19 definitioner
+       0000 0DC0           26. ML19_Stat		EQU	$0DC0
+                           27. ;	Kvittera händelse 1	
+       0000 0DC2           28. ML19_AckIrq_1		EQU	$0DC2
+                           29. ;	Nollställ händelse 2
+       0000 0DC3           30. ML19_AckIrq_2		EQU	$0DC3
+                           31. 
+                           32. ;---------------------------------------
+                           33. ;Borr avsnitt 4
+                           34. ;---------------------------------------
+                           35. 
+                           36. ;	Adress till omkopplare och Display Borr
+       0000 0600           37. DipSwitch		EQU	$0600
+       0000 0700           38. HexDisplay		EQU	$0700
+                           39. ;	Adress till borrmaskinens styrregister
+       0000 0400           40. DrillControl		EQU	$0400
+                           41. 
+                           42. ;	Borrmaskinens statusregister
+       0000 0401           43. DrillStatus		EQU	$0401000000 00                  44. DCshadow	RMB	1 	;skuggregister för DrillControl
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82-101\Subroutines1.s12"
+000001                     45. 	
+001000                     46. 	ORG	$1000
+001000                     47. 	
+001000 C6 FF               48. start:		LDAB	#$FF
+001002 7B 00 00            49. 		STAB	DCshadow
+001005                     50. 		
+001005 F6 06 00            51. Loop:		LDAB	DipSwitch
+001008 16 10 14            52. 		JSR	Outzero
+00100B                     53. 		
+00100B B6 00 00            54. 		LDAA	DCshadow
+00100E 7A 04 01            55. 		STAA	DrillStatus
+001011 06 10 00            56. 		JMP 	start
+001014                     57. 		
+001014                     58. 		
+001014 B6 00 00            59. Outzero:	LDAA	DCshadow
+001017 84 FF               60. 		ANDA	#$FF
+001019 7A 00 00            61. 		STAA	DCshadow
+00101C 7A 04 00            62. 		STAA	DrillControl
+00101F 3D                  63. 		RTS	
+001020                     64. 		
+001020                     65. 		
+001020 B6 00 00            66. Outone:		LDAA	DCshadow
+001023 8A FF               67. 		ORAA	#$FF
+001025 7A 00 00            68. 		STAA	DCshadow
+001028 7A 04 00            69. 		STAA	DrillControl
+00102B 3D                  70. 		RTS
+00102C                     71. 		

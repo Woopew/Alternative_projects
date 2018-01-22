@@ -1,0 +1,13 @@
+;
+;		mom21.s12
+;
+
+InPort		EQU	$600
+OutPort		EQU	$400
+	
+		ORG 	$1000
+		LDAA	InPort
+		STAA	OutPort
+Start:		ASRA
+		STAA	OutPort			
+		JMP	Start

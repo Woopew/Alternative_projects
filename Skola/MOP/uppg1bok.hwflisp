@@ -1,0 +1,10 @@
+QAflisp - FLISP Absolute crossassembler, Version RC:9
+(c) GMV 1989-2014
+File: uppg1bok.hwflisp
+
+ # ClearAllMemory
+ # ClearAllRegisters
+ #setMemory  00=E1
+ #setMemory  01=00
+ #setMemory  02=33
+ #setMemory  03=00

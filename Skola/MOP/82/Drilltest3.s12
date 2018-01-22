@@ -1,0 +1,21 @@
+;
+;		Drilltest3.s12
+		
+		USE	Labdefs.s12
+		ORG	$1000
+		
+start:		JSR	Vrid1steg
+		BRA	start
+		
+		USE	Delay.s12
+
+
+Vrid1steg:	LDAA	#3
+		STAA	DrillControl
+		LDAB	#DelayConst
+		JSR	Delay
+		LDAA	#0
+		STAA	DrillControl
+		
+		
+		RTS

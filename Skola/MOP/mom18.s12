@@ -1,0 +1,14 @@
+;
+;		mom18.s12
+;
+
+InPort		EQU	$600
+OutPort		EQU	$400
+	
+		ORG 	$1000
+Start:		LDD	InPort
+		LDY	#30
+		EMULS	
+		STY	OutPort	;mest sign
+		STD	OutPort	;minst sign	
+		JMP	Start

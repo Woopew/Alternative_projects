@@ -1,0 +1,23 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: labb2.lst
+001000                      1. 	ORG	$1000
+001000                      2. 	
+001000 86 01                3. 	LDAA	#1
+001002 7A 09 C2             4. 	STAA	$9C2
+001005 86 D0                5. 	LDAA	#$D0
+001007 7A 09 C3             6. 	STAA	$9C3
+00100A 86 00                7. 	LDAA	#0
+00100C 7A 09 C2             8. 	STAA	$9C2
+00100F                      9. 	
+00100F 86 08               10. 	LDAA	#8
+001011                     11. 	
+001011                     12. loop:
+001011 7B 09 C3            13. 	STAB	$9C3
+001014 43                  14. 	DECA	
+001015 26 FA               15. 	BNE	loop
+001017                     16. 	
+001017                     17. ennd	
+001017 20 FE               18. 	BRA 	ennd

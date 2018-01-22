@@ -1,0 +1,14 @@
+;
+;	mom23.s12
+;
+
+		ORG	$1000
+start:		LDAB	$600
+		TSTB	
+		BEQ	JA
+		BNE	NEJ
+JA:		CLRA
+		JMP	aktivera
+NEJ:		LDAA	#$FF
+aktivera:	STAA	$400
+		BRA	start

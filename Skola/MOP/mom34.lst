@@ -1,0 +1,22 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom34.lst
+                            1. ;
+                            2. ;	mom34.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 CF 3C 80             6. start:	LDS	#$3C80
+001003 16 10 0B             7. 	JSR	sub1
+001006 16 10 0E             8. 	JSR	sub2
+                            9. 
+001009 20 FE               10. stop:	BRA	stop
+                           11. 
+00100B C6 01               12. sub1:	LDAB	#1
+00100D 3D                  13. 	RTS
+                           14. 
+00100E C6 02               15. sub2:	LDAB	#2
+001010 3D                  16. 	RTS
+001011                     17. 	

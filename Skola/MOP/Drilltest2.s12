@@ -1,0 +1,55 @@
+;
+;		Drilltest2.s12
+;
+
+
+	USE	Labdefs.s12
+	ORG	$1000
+	
+start:	LDAA	#0	;reset
+	STAA	DrillControll
+	JSR	TillRefPos
+	JSR	Borra
+	JSR	Vrid1steg
+	JSR	Borra
+	JSR	Vrid1steg
+	JSR	Borra
+	JSR	Vrid1steg
+	JSR	Vrid1steg
+	JSR	Vrid1steg
+	JSR	Borra
+	JSR	GeLarm
+stopp:	BRA	stopp
+
+Vrid1steg:	LDAA	#3
+		STAA	DrillControll
+		LDAA	#0
+		STAA	DrillControll
+		RTS
+		
+TillRefPos:	LDAA	DrillStatus
+		CMPA	#3
+		BEQ	RefPos_ok
+		JSR	Vrid1steg
+		BRA	TillRefPos		
+RefPos_ok	RTS
+	
+Borra:		LDAA	#4
+		STAA	DrillControll
+		JSR	Delay
+		LDAA	#12
+		STAA	DrillControll
+wait		LDAA	DrillStatus
+		CMPA	#4
+		BLO	wait
+		LDAA	#0
+		STAA	DrillControll
+		RTS
+
+GeLarm:		LDAA	#16
+		STAA	DrillControll
+		RTS
+		
+Delay:
+		;RTS
+		

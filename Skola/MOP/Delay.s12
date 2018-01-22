@@ -1,0 +1,46 @@
+;
+;	Delay.s12
+;
+;-----------------------------------------
+start:
+		ORG	$1000
+		CLRA
+		
+main:		LDAB	$600
+		JSR	Delay
+		STAA	$400
+		COMA
+		BRA	main
+;------------------------------------------
+;---------------------------------------------------------
+;Subrutinen Delay
+
+#ifdef RUNFAST
+Delayconst	EQU	#$FF
+#else	
+Delayconst	EQU	#$01
+;---------------------------------------------------------
+;åstakommer fördröjning av program.
+;Fördröjningen utförs i steg om 0,25sekunders intervall.
+;Indata:
+;	Register B: antal fördröjningar om 0,25s vardera.
+;Registerpåverkan:
+;	Register B innehåller alltid 0 efter subrutinen.
+;	Inga andra register påverkas.
+
+Delay:
+		TSTB
+		BEQ	Stopdelay
+		PSHB
+		LDAB	#255
+Delay_1:
+		TSTB
+		DECB
+		
+		BNE 	Delay_1
+		PULB
+		DECB
+		BRA	Delay
+Stopdelay:	
+		RTS
+		

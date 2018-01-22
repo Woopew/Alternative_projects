@@ -1,0 +1,11 @@
+;
+;	mom26.s12
+;
+
+	ORG	$1000
+	LDAA	data
+	LDAB	data+1
+	LDX	$3000
+	LDY	data
+	ORG	$3000
+data:	FCB	1,2,3,4,5,6,7,8,9

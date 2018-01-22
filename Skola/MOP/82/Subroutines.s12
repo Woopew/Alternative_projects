@@ -1,0 +1,317 @@
+;--------------------------------------------------------------
+;		Subroutines.s12
+;--------------------------------------------------------------
+		USE	Labdefs.s12
+;--------------------------------------------------------------
+;Subrutin Outzero
+;Subrutinen nollställer valda bitar i både 
+;DCshadow och DrillControl.
+;
+;Anrop: 	LDAB	#FF
+;		JSR	Outzero
+;Indata:	Vilka bitar som ska nollställas i B-registret.
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Inga
+;
+;--------------------------------------------------------------
+Outzero:	COMB			;B inverteras för att endast peka ut 
+		ANDB	DCshadow	;den/de bitarna som ska nollställas med ANDB
+		STAB	DCshadow	;lagra ut till skuggregister och borren
+		STAB	DrillControl
+		RTS	
+;--------------------------------------------------------------
+;Subrutin Outone
+;Subrutinen ettställer valda bitar i både 
+;DCshadow och DrillControl.
+;
+;Anrop: 	LDAB	#FF
+;		JSR	Outone
+;Indata:	Vilka bitar som ska ettställas i B-registret.
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Inga
+;
+;--------------------------------------------------------------	
+Outone:		ORAB	DCshadow	;Ettställ alla bitar som är tända i B
+		STAB	DCshadow	;och kompletera detta i skuggregister och kontroll
+		STAB	DrillControl
+		RTS
+;--------------------------------------------------------------
+;Subrutin MotorStart
+;Subrutinen startar borrmotorn och väntar därefter i 1 sekund
+;för att vänta på att borret skall uppnå rätt hastighet.
+;
+;Anrop: 	JSR	MotorStart		
+;Indata:	Inga
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Delay,Outone
+;
+;--------------------------------------------------------------
+MotorStart:	PSHA			;spara A och B på stacken
+		PSHB
+		LDAA	DCshadow	;kontollera om motorn redan är startad
+		CMPA	#4
+		BEQ	MSklar		;om startad hämta A och B och avsluta rutinen
+		LDAB	#4
+		JSR	Outone		;ettställ biten för motorstart i kontroll och
+		LDAB	#6		;skuggregister
+		JSR	Delay		;ge motorn tid att komma upp i varv innan nästa
+MSklar:		PULA			;rutin
+		PULB
+		RTS
+;--------------------------------------------------------------
+;Subrutin MotorStop
+;Subrutinen stoppar borrmotorn. 
+;
+;Anrop: 	JSR	MotorStop	
+;Indata:	Inga
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Outzero
+;
+;--------------------------------------------------------------
+MotorStop:	PSHA
+		PSHB
+		LDAB	#4		
+		JSR	Outzero		;Nolla biten som startar motorn, därvid
+		PULA			;stänga av motorn
+		PULB
+		RTS
+;--------------------------------------------------------------
+;Subrutin DrillDown
+;Subrutinen sänker borret genom att aktivera drivenheten 
+;för vridmagneten.
+;
+;Anrop: 	JSR	DrillDown		
+;Indata:	Inga
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Outone
+;
+;--------------------------------------------------------------
+DrillDown:	LDAB	#8	
+		JSR	Outone		;ettställ biten för vridmagneten
+		RTS
+;--------------------------------------------------------------
+;Subrutin DrillUp
+;Subrutinen höjer borret genom att deaktivera drivenheten 
+;för vridmagneten. Fördröjer också nästa händelse för att låta
+;borret hinna komma hela vägen upp.
+;
+;Anrop: 	JSR	DrillUp		
+;Indata:	Inga
+;Utdata: 	Inga
+;Register:	Ingen
+;Anropar:	Delay,Outzero
+;
+;--------------------------------------------------------------
+DrillUp:	LDAB	#%00001000
+		JSR	Outzero		;nollställ biten för vridmagneten
+		LDAB	#4
+		JSR	Delay		;ge borret tid att komma hela vägen upp
+		RTS
+;--------------------------------------------------------------
+;Subrutin Step
+;Rutinen kontrollerar först att borret är i "toppläge", vrider
+;sedan arbetsstycket ett steg medurs. Om borret är sänkt vid anrop
+;av Step utförs ingen vridning istället ges tre larmsignaler via 
+;Alarm innan rutinen avslutas.  
+;
+;Anrop: 	JSR	Step		
+;Indata:	Inga
+;Utdata: 	Register B innehåller 1 om arbetsstycket vridits,
+;		annars innehåller register B 0.
+;Register:	A,B kan ändras
+;Anropar:	Outzero, Outone, Delay, Alarm
+;
+;--------------------------------------------------------------
+Step:		LDAB	DrillStatus		;kontrollerar så borr är uppe
+		CMPB	#3
+		BHI	Larmu			;är borr nere, ge tre larmsignaler
+		LDAB	#3
+		JSR	Outone			;ettställ bitar för medurs rotation
+		LDAB	#4			;av arbetsstycke
+		JSR	Delay			;ge arbetsstycket minst 250 ms för rotation
+		LDAB	#3
+		JSR	Outzero			;nollställ bitar för vridning
+		LDAB	#1			;lyckad vridning 1-->B
+		BRA	StepKlar
+		
+Larmu:		LDAB	#2			;misslyckad vridning, larm och 0-->B
+		JSR	Alarm
+		LDAB	#0
+		
+StepKlar	RTS
+;--------------------------------------------------------------
+;Subrutin DrillDownTest
+;Väntar maximalt 5 sekunder på att borret nått sitt bottenläge.
+;Indikatorn ska läsas av fyra gånger per sekund.
+;Om borret ej nått bottenläget inom denna tid ges två
+;larmsignaler och därefter avslutas rutinen.
+;
+;Anrop: 	JSR	DrillDownTest		
+;Indata:	Inga
+;Utdata: 	Register B innehåller 0 om larm gavs, annars
+;		innehåller register B 1.
+;Register:	A,B kan ändras
+;Anropar:	Alarm, Delay
+;
+;--------------------------------------------------------------
+DrillDownTest:	LDAA	#20		;antal försök innan misslyckat
+
+NoHoleYet:	LDAB	DrillStatus	;kontroll om borret är igenom arbetsstycket
+		CMPB	#3
+		BHI	Hole		;om bit 3 aka dec 4 är tänd är det hål
+		LDAB	#3
+		JSR	Delay		;invänta nästa försök
+		DECA
+		BHI	NoHoleYet	;om A>0 nytt försök
+		LDAB	#2		;annars ge två larmsignaler
+		JSR	Alarm		
+		LDAB	#0		;misslyckat hål 0-->B
+		RTS
+		
+Hole:		LDAB	#1		;lyckat hål 1-->B
+		RTS
+;--------------------------------------------------------------
+;Subrutin DrillHole
+;Subrutinen borrar ett hål i arbetsstycket genom att kombinera
+;DrillDown, DrillDownTest och DrillUp. Returvärde från 
+;DrillDownTest sparas i register B.
+;
+;Anrop: 	JSR	DrillHole		
+;Indata:	Inga
+;Utdata: 	Register B innehåller 0 om larm gavs, annars
+;		innehåller register B 1.
+;Register:	Ingen
+;Anropar:	DrillDown, DrillDownTest, DrillUp
+;
+;--------------------------------------------------------------
+DrillHole:	JSR	DrillDown		;anropa DrillDown, sänk borret
+		JSR	DrillDownTest		;kontrollerar om hål
+		PSHB				;spara returvärde från DrillDownTest
+		JSR	DrillUp			;upp med borr
+		PULB				;hämta 
+		RTS
+;--------------------------------------------------------------
+;Subrutin RefPos
+;Roterar arbetsstycket tills det befinner sig i 
+;referenspositionen eller avbryter vid feltillstånd.
+;
+;Anrop: 	JSR	RefPos		
+;Indata:	Inga
+;Utdata: 	Register B innehåller 0 om feltillstånd, annars
+;		innehåller register B 1.
+;Register:	A,B kan ändras
+;Anropar:	Step
+;
+;--------------------------------------------------------------
+RefPos:		LDAB	DrillStatus		;läser om arbetstycket står på referenspunkten
+		ANDB	#1
+		CMPB	#1
+		BEQ	Ref			;hoppar till slutet om den står på referenspunkten
+		JSR	Step			;roterar medurs ett steg
+		CMPB	#1
+		BEQ	RefPos			;om den ännu inte står rätt börja om
+		LDAB	#0			;om fel uppstår: 0-->B
+		RTS
+		
+Ref:		LDAB	#1			;Vid mål 1-->B
+		RTS
+;--------------------------------------------------------------
+;Subrutin DoAuto
+;Borrar ett antal hål enligt ett givet mönster i ett
+;arbetsstycke.
+;
+;Anrop: 	LDX	#Pattern
+;		JSR	RefPos		
+;Indata:	Adressen till tabell med hålmönster i register
+;		X
+;Utdata: 	Inga
+;Register:	A,B och X kan ändras
+;Anropar:	MotorStart, MotorStop, RefPos, Nstep, Drillhole
+;
+;--------------------------------------------------------------
+DoAuto:		JSR	RefPos			;ställ stycket i referenspositionen
+		TSTB				;kollar om fel upstått i RefPos
+		BEQ	InteRef			;om fel hoppa till InteRef
+		JSR	MotorStart		;inget fel: starta motorn
+		LDX	#Pattern		;hämta adress för borrmönster
+		
+Nope:		LDAB	,X			;lägg värdet på adressen X i B
+		INX				;öka X till nästa adress
+		CMPB	#$FF			;kontrollera att mönstret inte är slut
+		BEQ	InteRef
+		JSR	Nstep			;rotera antal steg borrmönster anger
+		TSTB				;kontrollera att inget gick fel i rotationen
+		BEQ	InteRef
+		JSR	DrillHole		;borra hål
+		TSTB				;kontrollera att det blev hål
+		BNE	Nope			;fortsätt tills mönstret är slut
+		
+InteRef:	JSR	MotorStop		;stäng av motorn antingen vid fel eller mönsterslut
+		RTS
+;--------------------------------------------------------------
+;Subrutin Nstep
+;Roterar arbetsstycket n steg medurs.
+;
+;Anrop: 	LDAB	#n
+;		JSR	Nstep	
+;Indata:	Antalet steg n (0-255) i B-registret.
+;Utdata: 	Register B innehåller 0 om feltillstånd, annars
+;		innehåller register B 1.
+;Register:	A,B kan ändras
+;Anropar:	Step
+;
+;--------------------------------------------------------------
+Nstep:		TSTB			;kontrollera hur många steg som ska roteras
+		BEQ	Ndone		;inga fler hål eller inga från början? färdig
+		DECB			;minska antalet steg kvar
+		PSHB			;spara antalet steg kvar
+		JSR	Step		;rotera 1 steg medurs
+		TSTB
+		BEQ	NFel		;Kontrollera så Step inte gav felsignal
+		PULB			;lägg tillbaka antal steg kvar i B
+		BRA	Nstep		;gör om tills stegen är slut
+		
+NFel:		LDAB	#0		;om fel uppstår 0-->B
+		RTS
+		
+Ndone:		LDAB	#1		;om allt rätt/klar 1-->B
+		RTS
+;--------------------------------------------------------------
+;Subrutin Alarm
+;ger N larmsignaler med längden 1 s och 0,5 s mellanrum.
+;
+;Anrop: 	LDAB	#N
+;		JSR	Alarm
+;Indata:	N antal larmsignale i register B
+;Utdata: 	Inga
+;Register:	A,B kan ändras
+;Anropar:	Delay, Outone, Outzero
+;
+;--------------------------------------------------------------
+Alarm:		
+		TSTB			
+		BEQ	AlarmKlar	;Kontrollera om N!=0
+		
+AlarmLoop:	PSHB			;spara N
+		LDAB	#16
+		JSR	Outone		;ettställ bit 4 aka dec 16 <=> Alarmsignal
+		LDAB	#6
+		JSR	Delay		;Låt larmet väsnas ca 0,5 sek
+		LDAB	#16
+		JSR	Outzero		;Nollställ bit 4 aka dec 16 <=> Alarmsignal
+		PULB			;Lägg tillbaka N antal alarmsignaler i B
+		DECB			;Minska N med 1
+		BEQ	AlarmKlar	;om N=0 avsluta rutinen
+		PSHB			;Lagra N för att inte skriva över
+		LDAB	#4
+		JSR	Delay		;Vänta tills nästa signal ska startas
+		PULB			;Lägg N i B för kontinuitet
+		BRA	AlarmLoop	;Starta om rutinen
+		
+AlarmKlar:	RTS
+;---------------------------------------------

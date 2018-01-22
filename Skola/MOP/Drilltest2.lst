@@ -1,0 +1,101 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Drilltest2.lst
+                            1. ;
+---- File: "C:\Users\Sandin\Desktop\assembler mop\Drilltest2.s12"
+                            2. ;		Drilltest2.s12
+                            3. ;
+                            4. 
+                            5. 
+                            6. 	USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            7. ;--------------------------------------
+                            8. ;Labdefs.s12
+                            9. ;--------------------------------------
+                           10. 
+                           11. ;--------------------------------------
+                           12. ; ML15 Avsnitt 2
+                           13. ;--------------------------------------
+                           14. 
+       0000 09C0           15. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           16. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           17. ML15_DisplayData	EQU	$9C3
+       0000 0C02           18. ML5_Segments		EQU	$C02
+       0000 0C03           19. ML5_Position		EQU	$C03
+       0000 0C00           20. ML5_Rows		EQU	$C00
+       0000 0C01           21. ML5_Colums		EQU	$C01
+                           22. 
+                           23. ;--------------------------------------
+                           24. ;Skrivare avsnitt 3
+                           25. ;--------------------------------------
+                           26. 
+                           27. ;	ML19 definitioner
+       0000 0DC0           28. ML19_Stat		EQU	$0DC0
+                           29. ;	Kvittera händelse 1	
+       0000 0DC2           30. ML19_AckIrq_1		EQU	$0DC2
+                           31. ;	Nollställ händelse 2
+       0000 0DC3           32. ML19_AckIrq_2		EQU	$0DC3
+                           33. 
+                           34. ;---------------------------------------
+                           35. ;Borr avsnitt 4
+                           36. ;---------------------------------------
+                           37. 
+                           38. ;	Adress till omkopplare och Display Borr
+       0000 0600           39. DipSwitch		EQU	$0600
+       0000 0700           40. HexDisplay		EQU	$0700
+                           41. ;	Adress till borrmaskinens styrregister
+       0000 0400           42. DrillControll		EQU	$0400
+                           43. 
+                           44. ;	Borrmaskinens statusregister
+       0000 0401           45. DrillStatus		EQU	$0401001000                     46. 	ORG	$1000
+---- File: "C:\Users\Sandin\Desktop\assembler mop\Drilltest2.s12"
+001000                     47. 	
+001000 86 00               48. start:	LDAA	#0	;reset
+001002 7A 04 00            49. 	STAA	DrillControll
+001005 16 10 33            50. 	JSR	TillRefPos
+001008 16 10 40            51. 	JSR	Borra
+00100B 16 10 28            52. 	JSR	Vrid1steg
+00100E 16 10 40            53. 	JSR	Borra
+001011 16 10 28            54. 	JSR	Vrid1steg
+001014 16 10 40            55. 	JSR	Borra
+001017 16 10 28            56. 	JSR	Vrid1steg
+00101A 16 10 28            57. 	JSR	Vrid1steg
+00101D 16 10 28            58. 	JSR	Vrid1steg
+001020 16 10 40            59. 	JSR	Borra
+001023 16 10 5A            60. 	JSR	GeLarm
+001026 20 FE               61. stopp:	BRA	stopp
+                           62. 
+001028 86 03               63. Vrid1steg:	LDAA	#3
+00102A 7A 04 00            64. 		STAA	DrillControll
+00102D 86 00               65. 		LDAA	#0
+00102F 7A 04 00            66. 		STAA	DrillControll
+001032 3D                  67. 		RTS
+001033                     68. 		
+001033 B6 04 01            69. TillRefPos:	LDAA	DrillStatus
+001036 81 03               70. 		CMPA	#3
+001038 27 05               71. 		BEQ	RefPos_ok
+00103A 16 10 28            72. 		JSR	Vrid1steg
+00103D 20 F4               73. 		BRA	TillRefPos		
+00103F 3D                  74. RefPos_ok	RTS
+001040                     75. 	
+001040 86 04               76. Borra:		LDAA	#4
+001042 7A 04 00            77. 		STAA	DrillControll
+001045 16 10 60            78. 		JSR	Delay
+001048 86 0C               79. 		LDAA	#12
+00104A 7A 04 00            80. 		STAA	DrillControll
+00104D B6 04 01            81. wait		LDAA	DrillStatus
+001050 81 04               82. 		CMPA	#4
+001052 25 F9               83. 		BLO	wait
+001054 86 00               84. 		LDAA	#0
+001056 7A 04 00            85. 		STAA	DrillControll
+001059 3D                  86. 		RTS
+                           87. 
+00105A 86 10               88. GeLarm:		LDAA	#16
+00105C 7A 04 00            89. 		STAA	DrillControll
+00105F 3D                  90. 		RTS
+001060                     91. 		
+001060                     92. Delay:
+001060                     93. 		;RTS
+001060                     94. 		

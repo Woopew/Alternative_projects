@@ -1,0 +1,58 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: testoutzero.lst
+                            1. 
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82-101\testoutzero.s12"
+                            2. 	USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            3. ;--------------------------------------
+                            4. ;Labdefs.s12
+                            5. ;--------------------------------------
+                            6. 
+                            7. ;--------------------------------------
+                            8. ; ML15 Avsnitt 2
+                            9. ;--------------------------------------
+                           10. 
+       0000 09C0           11. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           12. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           13. ML15_DisplayData	EQU	$9C3
+       0000 0C02           14. ML5_Segments		EQU	$C02
+       0000 0C03           15. ML5_Position		EQU	$C03
+       0000 0C00           16. ML5_Rows		EQU	$C00
+       0000 0C01           17. ML5_Colums		EQU	$C01
+                           18. 
+                           19. ;--------------------------------------
+                           20. ;Skrivare avsnitt 3
+                           21. ;--------------------------------------
+                           22. 
+                           23. ;	ML19 definitioner
+       0000 0DC0           24. ML19_Stat		EQU	$0DC0
+                           25. ;	Kvittera händelse 1	
+       0000 0DC2           26. ML19_AckIrq_1		EQU	$0DC2
+                           27. ;	Nollställ händelse 2
+       0000 0DC3           28. ML19_AckIrq_2		EQU	$0DC3
+                           29. 
+                           30. ;---------------------------------------
+                           31. ;Borr avsnitt 4
+                           32. ;---------------------------------------
+                           33. 
+                           34. ;	Adress till omkopplare och Display Borr
+       0000 0600           35. DipSwitch		EQU	$0600
+       0000 0700           36. HexDisplay		EQU	$0700
+                           37. ;	Adress till borrmaskinens styrregister
+       0000 0400           38. DrillControl		EQU	$0400
+                           39. 
+                           40. ;	Borrmaskinens statusregister
+       0000 0401           41. DrillStatus		EQU	$0401001000                     42. 	ORG	$1000
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82-101\testoutzero.s12"
+001000 00                  43. DCshadow	RMB	1
+001001 86 FF               44. 		LDAA	#$FF
+001003 7A 10 00            45. 		STAA	DCshadow
+001006                     46. Outzero:	
+001006 B6 06 00            47. 		LDAA	DipSwitch
+001009 84 44               48. 		ANDA	#$44
+00100B 7A 10 00            49. 		STAA	DCshadow
+00100E 7A 04 00            50. 		STAA	DrillControl
+001011 06 10 06            51. 		JMP	Outzero

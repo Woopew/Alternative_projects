@@ -1,0 +1,11 @@
+;
+;		Drilltest1.s12
+;
+
+	USE	Labdefs.s12
+	ORG	$1000
+
+Dtest1:
+	LDAA	DipSwitch
+	STAA	DrillControll
+	BRA	Dtest1

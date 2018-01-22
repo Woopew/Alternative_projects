@@ -1,0 +1,54 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Delay.lst
+                            1. ;
+                            2. ;	Delay.s12
+                            3. ;
+                            4. ;-----------------------------------------
+                            5. #define RUNFAST
+                            6. #ifdef RUNFAST
+       0000 0003            7. DelayConst	EQU	$3
+                           10. #endif
+                           11. 
+                           12. 
+                           13. ;start:
+                           14. ;		ORG	$1000
+                           15. ;		
+                           16. ;		CLRA
+                           17. ;	
+                           18. ;main:		LDAB	#DelayConst
+                           19. ;		JSR	Delay
+                           20. ;		STAA	$400
+                           21. ;		COMA
+                           22. ;		BRA	main
+                           23. ;------------------------------------------
+                           24. ;---------------------------------------------------------
+                           25. ;Subrutinen Delay
+                           26. 
+                           27. ;---------------------------------------------------------
+                           28. ;åstakommer fördröjning av program.
+                           29. ;Fördröjningen utförs i steg om 0,25sekunders intervall.
+                           30. ;Indata:
+                           31. ;	Register B: antal fördröjningar om 0,25s vardera.
+                           32. ;Registerpåverkan:
+                           33. ;	Register B innehåller alltid 0 efter subrutinen.
+                           34. ;	Inga andra register påverkas.
+                           35. 
+000000                     36. Delay:
+000000 D7                  37. 		TSTB
+000001 27 0B               38. 		BEQ	Stopdelay
+000003 37                  39. 		PSHB
+000004 C6 FF               40. 		LDAB	#255
+000006                     41. Delay_1:
+000006 D7                  42. 		TSTB
+000007 53                  43. 		DECB
+000008                     44. 		
+000008 26 FC               45. 		BNE 	Delay_1
+00000A 33                  46. 		PULB
+00000B 53                  47. 		DECB
+00000C 20 F2               48. 		BRA	Delay
+00000E                     49. Stopdelay:	
+00000E 3D                  50. 		RTS
+00000F                     51. 		

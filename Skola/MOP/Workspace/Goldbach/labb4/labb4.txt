@@ -1,0 +1,1 @@
+./Debug/labb4_qtest.c.o ./Debug/labb4_queue.c.o   

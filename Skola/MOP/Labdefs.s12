@@ -1,0 +1,39 @@
+;--------------------------------------
+;Labdefs.s12
+;--------------------------------------
+
+;--------------------------------------
+; ML15 Avsnitt 2
+;--------------------------------------
+
+ML15_KeyBoardRegister	EQU	$9C0
+ML15_DisplayMode	EQU	$9C2
+ML15_DisplayData	EQU	$9C3
+ML5_Segments		EQU	$C02
+ML5_Position		EQU	$C03
+ML5_Rows		EQU	$C00
+ML5_Colums		EQU	$C01
+
+;--------------------------------------
+;Skrivare avsnitt 3
+;--------------------------------------
+
+;	ML19 definitioner
+ML19_Stat		EQU	$0DC0
+;	Kvittera händelse 1	
+ML19_AckIrq_1		EQU	$0DC2
+;	Nollställ händelse 2
+ML19_AckIrq_2		EQU	$0DC3
+
+;---------------------------------------
+;Borr avsnitt 4
+;---------------------------------------
+
+;	Adress till omkopplare och Display Borr
+DipSwitch		EQU	$0600
+HexDisplay		EQU	$0700
+;	Adress till borrmaskinens styrregister
+DrillControll		EQU	$0400
+
+;	Borrmaskinens statusregister
+DrillStatus		EQU	$0401

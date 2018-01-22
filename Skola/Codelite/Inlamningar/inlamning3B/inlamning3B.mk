@@ -1,0 +1,112 @@
+##
+## Auto Generated makefile by CodeLite IDE
+## any manual changes will be erased      
+##
+## Debug
+ProjectName            :=inlamning3B
+ConfigurationName      :=Debug
+WorkspacePath          :=C:/Users/Lappy/Desktop/Skola/Codelite/Inlamningar
+ProjectPath            :=C:/Users/Lappy/Desktop/Skola/Codelite/Inlamningar/inlamning3B
+IntermediateDirectory  :=./Debug
+OutDir                 := $(IntermediateDirectory)
+CurrentFileName        :=
+CurrentFilePath        :=
+CurrentFileFullPath    :=
+User                   :=Lappy
+Date                   :=19/05/2017
+CodeLitePath           :="C:/Program Files/CodeLite"
+LinkerName             :=C:/TDM-GCC-64/bin/g++.exe
+SharedObjectLinkerName :=C:/TDM-GCC-64/bin/g++.exe -shared -fPIC
+ObjectSuffix           :=.o
+DependSuffix           :=.o.d
+PreprocessSuffix       :=.i
+DebugSwitch            :=-g 
+IncludeSwitch          :=-I
+LibrarySwitch          :=-l
+OutputSwitch           :=-o 
+LibraryPathSwitch      :=-L
+PreprocessorSwitch     :=-D
+SourceSwitch           :=-c 
+OutputFile             :=$(IntermediateDirectory)/$(ProjectName)
+Preprocessors          :=
+ObjectSwitch           :=-o 
+ArchiveOutputSwitch    := 
+PreprocessOnlySwitch   :=-E
+ObjectsFileList        :="inlamning3B.txt"
+PCHCompileFlags        :=
+MakeDirCommand         :=makedir
+RcCmpOptions           := 
+RcCompilerName         :=C:/TDM-GCC-64/bin/windres.exe
+LinkOptions            :=  
+IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
+IncludePCH             := 
+RcIncludePath          := 
+Libs                   := 
+ArLibs                 :=  
+LibPath                := $(LibraryPathSwitch). 
+
+##
+## Common variables
+## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
+##
+AR       := C:/TDM-GCC-64/bin/ar.exe rcu
+CXX      := C:/TDM-GCC-64/bin/g++.exe
+CC       := C:/TDM-GCC-64/bin/gcc.exe
+CXXFLAGS :=  -g -O0 -Wall $(Preprocessors)
+CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
+ASFLAGS  := 
+AS       := C:/TDM-GCC-64/bin/as.exe
+
+
+##
+## User defined environment variables
+##
+CodeLiteDir:=C:\Program Files\CodeLite
+Objects0=$(IntermediateDirectory)/tecken_rad.c$(ObjectSuffix) 
+
+
+
+Objects=$(Objects0) 
+
+##
+## Main Build Targets 
+##
+.PHONY: all clean PreBuild PrePreBuild PostBuild MakeIntermediateDirs
+all: $(OutputFile)
+
+$(OutputFile): $(IntermediateDirectory)/.d $(Objects) 
+	@$(MakeDirCommand) $(@D)
+	@echo "" > $(IntermediateDirectory)/.d
+	@echo $(Objects0)  > $(ObjectsFileList)
+	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
+
+MakeIntermediateDirs:
+	@$(MakeDirCommand) "./Debug"
+
+
+$(IntermediateDirectory)/.d:
+	@$(MakeDirCommand) "./Debug"
+
+PreBuild:
+
+
+##
+## Objects
+##
+$(IntermediateDirectory)/tecken_rad.c$(ObjectSuffix): tecken_rad.c $(IntermediateDirectory)/tecken_rad.c$(DependSuffix)
+	$(CC) $(SourceSwitch) "C:/Users/Lappy/Desktop/Skola/Codelite/Inlamningar/inlamning3B/tecken_rad.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/tecken_rad.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/tecken_rad.c$(DependSuffix): tecken_rad.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/tecken_rad.c$(ObjectSuffix) -MF$(IntermediateDirectory)/tecken_rad.c$(DependSuffix) -MM tecken_rad.c
+
+$(IntermediateDirectory)/tecken_rad.c$(PreprocessSuffix): tecken_rad.c
+	$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/tecken_rad.c$(PreprocessSuffix) tecken_rad.c
+
+
+-include $(IntermediateDirectory)/*$(DependSuffix)
+##
+## Clean
+##
+clean:
+	$(RM) -r ./Debug/
+
+

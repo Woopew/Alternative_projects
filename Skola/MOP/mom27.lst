@@ -1,0 +1,16 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom27.lst
+                            1. ;
+                            2. ;	mom26.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 B6 30 00             6. 	LDAA	data
+001003 F6 30 01             7. 	LDAB	data+1
+001006 FE 30 00             8. 	LDX	$3000
+001009 FD 30 00             9. 	LDY	data
+003000                     10. 	ORG	$3000
+003000 01 02               11. data:	FCB	1,2

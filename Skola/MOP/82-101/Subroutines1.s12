@@ -1,0 +1,35 @@
+;--------------------------------------------------------------
+;		Subroutines.s12
+;--------------------------------------------------------------
+		USE	Labdefs.s12
+;----------------------------------------------------------------
+;		tidigttest					-
+;----------------------------------------------------------------
+;DCshadow	RMB	1 	;skuggregister för DrillControl
+;	
+;	ORG	$1000
+;	
+;start:		LDAB	#$FF
+;		STAB	DCshadow
+;		
+;Loop:		LDAB	DipSwitch
+;		JSR	Outzero
+;		
+;		LDAA	DCshadow
+;		STAA	DrillStatus
+;		JMP 	start
+;		
+;---------------------------------------------
+Outzero:	LDAB	DCshadow
+		ANDB	#$FF
+		STAB	DCshadow
+		STAB	DrillControl
+		RTS	
+		
+;---------------------------------------------		
+Outone:		LDAB	DCshadow
+		ORAB	#$FF
+		STAB	DCshadow
+		STAB	DrillControl
+		RTS
+;---------------------------------------------

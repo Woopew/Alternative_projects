@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="Inlamningar" Database="" Version="10.0.0">
+  <Project Name="inlamning1A" Path="inlamning1A/inlamning1A.project" Active="No"/>
+  <Project Name="inlamning1B" Path="inlamning1B/inlamning1B.project" Active="No"/>
+  <Project Name="inlamning1C" Path="inlamning1C/inlamning1C.project" Active="No"/>
+  <Project Name="inlamning1D" Path="inlamning1D/inlamning1D.project" Active="No"/>
+  <Project Name="inlamning1E" Path="inlamning1E/inlamning1E.project" Active="No"/>
+  <Project Name="inlamning1F" Path="inlamning1F/inlamning1F.project" Active="No"/>
+  <Project Name="inlamning1G" Path="inlamning1G/inlamning1G.project" Active="No"/>
+  <Project Name="inlamning1H" Path="inlamning1H/inlamning1H.project" Active="No"/>
+  <Project Name="inlamning1i" Path="inlamning1i/inlamning1i.project" Active="No"/>
+  <Project Name="inlamning2A" Path="inlamning2A/inlamning2A.project" Active="No"/>
+  <Project Name="inlamning2B" Path="inlamning2B/inlamning2B.project" Active="No"/>
+  <Project Name="inlamning2C" Path="inlamning2C/inlamning2C.project" Active="No"/>
+  <Project Name="inlamning2D" Path="inlamning2D/inlamning2D.project" Active="No"/>
+  <Project Name="inlamning3A" Path="inlamning3A/inlamning3A.project" Active="No"/>
+  <Project Name="inlamning3B" Path="inlamning3B/inlamning3B.project" Active="No"/>
+  <Project Name="inlamning3C" Path="inlamning3C/inlamning3C.project" Active="No"/>
+  <Project Name="Lab_Hangman" Path="Lab_Hangman/Lab_Hangman.project" Active="No"/>
+  <Project Name="MOPuppg3" Path="MOP/MOP.project" Active="No"/>
+  <Project Name="MOP_16_dualwater" Path="16-bit_running_water/16-bit_running_water.project" Active="No"/>
+  <Project Name="MOP_scrolling_water" Path="MOP_scrolling_water/MOP_scrolling_water.project" Active="No"/>
+  <Project Name="MOP_bouncing_water" Path="MOP_bouncing_water/MOP_bouncing_water.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="inlamning1A" ConfigName="Debug"/>
+      <Project Name="inlamning1B" ConfigName="Debug"/>
+      <Project Name="inlamning1C" ConfigName="Debug"/>
+      <Project Name="inlamning1D" ConfigName="Debug"/>
+      <Project Name="inlamning1E" ConfigName="Debug"/>
+      <Project Name="inlamning1F" ConfigName="Debug"/>
+      <Project Name="inlamning1G" ConfigName="Debug"/>
+      <Project Name="inlamning1H" ConfigName="Debug"/>
+      <Project Name="inlamning1i" ConfigName="Debug"/>
+      <Project Name="inlamning2A" ConfigName="Debug"/>
+      <Project Name="inlamning2B" ConfigName="Debug"/>
+      <Project Name="inlamning2C" ConfigName="Debug"/>
+      <Project Name="inlamning2D" ConfigName="Debug"/>
+      <Project Name="inlamning3A" ConfigName="Debug"/>
+      <Project Name="inlamning3B" ConfigName="Debug"/>
+      <Project Name="inlamning3C" ConfigName="Debug"/>
+      <Project Name="Laboration" ConfigName="Debug"/>
+      <Project Name="Lab_Hangman" ConfigName="Debug"/>
+      <Project Name="MOPuppg3" ConfigName="Debug"/>
+      <Project Name="MOP_16_dualwater" ConfigName="Debug"/>
+      <Project Name="MOP_scrolling_water" ConfigName="Debug"/>
+      <Project Name="MOP_bouncing_water" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="inlamning1A" ConfigName="Release"/>
+      <Project Name="inlamning1B" ConfigName="Release"/>
+      <Project Name="inlamning1C" ConfigName="Release"/>
+      <Project Name="inlamning1D" ConfigName="Release"/>
+      <Project Name="inlamning1E" ConfigName="Release"/>
+      <Project Name="inlamning1F" ConfigName="Release"/>
+      <Project Name="inlamning1G" ConfigName="Release"/>
+      <Project Name="inlamning1H" ConfigName="Release"/>
+      <Project Name="inlamning1i" ConfigName="Release"/>
+      <Project Name="inlamning2A" ConfigName="Release"/>
+      <Project Name="inlamning2B" ConfigName="Release"/>
+      <Project Name="inlamning2C" ConfigName="Release"/>
+      <Project Name="inlamning2D" ConfigName="Release"/>
+      <Project Name="inlamning3A" ConfigName="Release"/>
+      <Project Name="inlamning3B" ConfigName="Release"/>
+      <Project Name="inlamning3C" ConfigName="Release"/>
+      <Project Name="Laboration" ConfigName="Release"/>
+      <Project Name="Lab_Hangman" ConfigName="Release"/>
+      <Project Name="MOPuppg3" ConfigName="Release"/>
+      <Project Name="MOP_16_dualwater" ConfigName="Release"/>
+      <Project Name="MOP_scrolling_water" ConfigName="Release"/>
+      <Project Name="MOP_bouncing_water" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

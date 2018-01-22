@@ -1,0 +1,11 @@
+10
+brun
+lila
+gulare
+turkos
+banan
+bilar
+helikopter
+flygplan
+elefant
+turtles

@@ -1,0 +1,39 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: DisplayML15.lst
+                            1. ;
+                            2. ;	Display.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 CE 10 08             6. 	LDX	#tabell
+001003 16 10 0E             7. start:	JSR	DisplayML15
+001006 20 FB                8. 	BRA	start
+                            9. ;
+001008 01 02 03 04 05 06   10. tabell	FCB	1,2,3,4,5,6
+                           11. ;
+                           12. ;
+                           13. ;
+00100E                     14. DisplayML15:
+00100E C6 01               15. 		LDAB	#1
+001010 7B 09 C2            16. 		STAB	$09C2
+001013 C6 D0               17. 		LDAB	#$D0
+001015 7B 09 C3            18. 		STAB	$09C3
+001018 C6 00               19. 		LDAB	#0
+00101A 7B 09 C2            20. 		STAB	$09C2
+00101D 87                  21. 		CLRA
+00101E 81 06               22. loopA:		CMPA	#6
+001020 27 08               23. 		BEQ	ASEX
+001022                     24. 		LDAB	A,X
+001024 7B 09 C3            25. 		STAB	$9C3
+001027 42                  26. 		INCA
+001028 20 F4               27. 		BRA	loopA
+00102A                     28. 		
+00102A C6 00               29. ASEX:		LDAB	#0
+00102C 7B 09 C3            30. 		STAB	$09C3
+00102F 7B 09 C3            31. 		STAB	$09C3
+001032                     32. 		
+001032 3D                  33. 		RTS
+001033                     34. 	

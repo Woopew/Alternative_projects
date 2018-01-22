@@ -1,0 +1,44 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Labdefs.lst
+                            1. ;--------------------------------------
+                            2. ;Labdefs.s12
+                            3. ;--------------------------------------
+                            4. 
+                            5. ;--------------------------------------
+                            6. ; ML15 Avsnitt 2
+                            7. ;--------------------------------------
+                            8. 
+       0000 09C0            9. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           10. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           11. ML15_DisplayData	EQU	$9C3
+       0000 0C02           12. ML5_Segments		EQU	$C02
+       0000 0C03           13. ML5_Position		EQU	$C03
+       0000 0C00           14. ML5_Rows		EQU	$C00
+       0000 0C01           15. ML5_Colums		EQU	$C01
+                           16. 
+                           17. ;--------------------------------------
+                           18. ;Skrivare avsnitt 3
+                           19. ;--------------------------------------
+                           20. 
+                           21. ;	ML19 definitioner
+       0000 0DC0           22. ML19_Stat		EQU	$0DC0
+                           23. ;	Kvittera händelse 1	
+       0000 0DC2           24. ML19_AckIrq_1		EQU	$0DC2
+                           25. ;	Nollställ händelse 2
+       0000 0DC3           26. ML19_AckIrq_2		EQU	$0DC3
+                           27. 
+                           28. ;---------------------------------------
+                           29. ;Borr avsnitt 4
+                           30. ;---------------------------------------
+                           31. 
+                           32. ;	Adress till omkopplare och Display Borr
+       0000 0600           33. DipSwitch		EQU	$0600
+       0000 0700           34. HexDisplay		EQU	$0700
+                           35. ;	Adress till borrmaskinens styrregister
+       0000 0400           36. DrillControl		EQU	$0400
+                           37. 
+                           38. ;	Borrmaskinens statusregister
+       0000 0401           39. DrillStatus		EQU	$0401

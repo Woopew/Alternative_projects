@@ -1,0 +1,50 @@
+S0030000FC
+S10D1000CF2FFF16100AA720FD00F1
+S123100A1B9FF606006B80E680C1402603161006E680B714596B80E6807B040020E41B816B
+S105102A3D2E55
+S9031000EC
+SX:C:s:__start
+SX:A:M:Appstart$C:/Users/Lappy/Desktop/Skola/MOP/labb5/XCC/src/Appstart.s12
+SX:C:T: typ2 l (4)
+SX:C:T: typ4 c (1)
+SX:C:T: typ6 s (2)
+SX:C:M:M14$C:/Users/Lappy/Desktop/Skola/MOP/labb5/XCC/src/M14.c
+SX:C:S:F:M14:main:_main:(typ0)(typ0)
+SX:C:S:F:M14:__func__:___func__:(typ11)
+SX:C:S:L:M14:main:c:0:(typ3)
+SX:C:T:  typ0 V (-1)
+SX:C:T:  typ1 L (4)
+SX:C:T:  typ2 l (4)
+SX:C:T:  typ3 C (1)
+SX:C:T:  typ4 c (1)
+SX:C:T:  typ5 S (2)
+SX:C:T:  typ6 s (2)
+SX:C:T:  typ7 g (4)
+SX:C:T:  typ8 G (4)
+SX:C:T:  typ9 h (4)
+SX:C:T:  typ10 R (2)
+SX:C:T:  typ11 I (2)
+SX:C:T:  typ12 i (2)
+SX:C:T:  typ13 E (2)
+SX:C:T:  typ14 F (2)
+SX:C:T:  typ15 P (2)
+SX:C:T: typ2 l (4)
+SX:C:T: typ4 c (1)
+SX:C:T: typ6 s (2)
+SX:A:X:Appstart:11:1000
+SX:A:X:Appstart:12:1003
+SX:A:X:Appstart:13:1006
+SX:A:X:Appstart:14:1007
+SX:A:F:Appstart:__start:1000:10
+SX:A:E:Appstart:__start:1009:16
+SX:C:F:M14:_main:0000100A:9
+SX:C:X:M14:9:1:100A
+SX:C:X:M14:12:7:100C
+SX:C:X:M14:13:23:100C
+SX:C:X:M14:14:4:1011
+SX:C:X:M14:15:8:1017
+SX:C:X:M14:16:12:101A
+SX:C:X:M14:17:22:1021
+SX:C:X:M14:19:1:1028
+SX:C:Z:M14:19:1:1028
+SX:C:E:M14:_main:0000102B:19

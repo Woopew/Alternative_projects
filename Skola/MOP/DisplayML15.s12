@@ -1,0 +1,34 @@
+;
+;	Display.s12
+;
+
+	ORG	$1000
+	LDX	#tabell
+start:	JSR	DisplayML15
+	BRA	start
+;
+tabell	FCB	1,2,3,4,5,6
+;
+;
+;
+DisplayML15:
+		LDAB	#1
+		STAB	$09C2
+		LDAB	#$D0
+		STAB	$09C3
+		LDAB	#0
+		STAB	$09C2
+		CLRA
+loopA:		CMPA	#6
+		BEQ	ASEX
+		LDAB	A,X
+		STAB	$9C3
+		INCA
+		BRA	loopA
+		
+ASEX:		LDAB	#0
+		STAB	$09C3
+		STAB	$09C3
+		
+		RTS
+	

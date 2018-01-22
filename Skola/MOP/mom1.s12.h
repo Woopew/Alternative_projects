@@ -1,0 +1,9 @@
+;
+;	mom1.s12
+
+	ORG	$1000
+start:	
+	LDAA	$600
+	STAA	$400
+	JMP	start
+	

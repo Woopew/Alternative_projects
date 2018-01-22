@@ -1,0 +1,18 @@
+mod:Appstart:O12:Appstart.o12
+seg:text:0
+seg:init:9
+C:init	CF2FFF160000A720FD
+RG:init:Appstart:00000004:O:W:_main:12
+G:init:Appstart:00000006:_exit
+G:init:Appstart:00000000:__start
+SY:A:M:Appstart$C:/Users/Lappy/Desktop/Skola/MOP/labb5/XCC/src/Appstart.s12
+SY:A:X:Appstart:11:init:0
+SY:A:X:Appstart:12:init:3
+SY:A:X:Appstart:13:init:6
+SY:A:X:Appstart:14:init:7
+SY:C:T: typ2 l (4)
+SY:C:T: typ4 c (1)
+SY:C:T: typ6 s (2)
+SY:A:F:Appstart:init:__start:00000000:10
+SY:A:E:Appstart:init:__start:9:16
+e

@@ -1,0 +1,53 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Delay.lst
+                            1. ;
+                            2. ;	Delay.s12
+                            3. ;
+                            4. ;-----------------------------------------
+000000                      5. start:
+001000                      6. 		ORG	$1000
+001000 87                   7. 		CLRA
+001001                      8. 		
+001001 F6 06 00             9. main:		LDAB	$600
+001004 16 10 0D            10. 		JSR	Delay
+001007 7A 04 00            11. 		STAA	$400
+00100A 41                  12. 		COMA
+00100B 20 F4               13. 		BRA	main
+                           14. ;------------------------------------------
+                           15. ;---------------------------------------------------------
+                           16. ;Subrutinen Delay
+                           17. 
+00100D                     18. #ifdef RUNFAST
+                           20. #else	
+"C:/Users/Lappy/Desktop/Skola/MOP/Delay.s12" line 21, ERROR: Illegal character, Position[15]
+       0000 0000           21. Delayconst	EQU	#$01
+                           22. ;---------------------------------------------------------
+                           23. ;åstakommer fördröjning av program.
+                           24. ;Fördröjningen utförs i steg om 0,25sekunders intervall.
+                           25. ;Indata:
+                           26. ;	Register B: antal fördröjningar om 0,25s vardera.
+                           27. ;Registerpåverkan:
+                           28. ;	Register B innehåller alltid 0 efter subrutinen.
+                           29. ;	Inga andra register påverkas.
+                           30. 
+00100D                     31. Delay:
+00100D D7                  32. 		TSTB
+00100E 27 0B               33. 		BEQ	Stopdelay
+001010 37                  34. 		PSHB
+001011 C6 FF               35. 		LDAB	#255
+001013                     36. Delay_1:
+001013 D7                  37. 		TSTB
+001014 53                  38. 		DECB
+001015                     39. 		
+001015 26 FC               40. 		BNE 	Delay_1
+001017 33                  41. 		PULB
+001018 53                  42. 		DECB
+001019 20 F2               43. 		BRA	Delay
+00101B                     44. Stopdelay:	
+00101B 3D                  45. 		RTS
+00101C                     46. 		
+
+****** Total Errors: 1

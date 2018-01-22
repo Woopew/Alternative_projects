@@ -1,0 +1,12 @@
+
+	USE	Labdefs.s12
+	ORG	$1000
+DCshadow	RMB	1
+		LDAA	#$FF
+		STAA	DCshadow
+Outzero:	
+		LDAA	DipSwitch
+		ANDA	#$44
+		STAA	DCshadow
+		STAA	DrillControl
+		JMP	Outzero

@@ -1,0 +1,65 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: labb17.lst
+001000                      1. 	ORG	$1000
+001000                      2. 	
+001000 16 10 05             3. main:	JSR	GetPut
+001003 20 FB                4. 	BRA	main
+001005                      5. 	
+                            6. ;----------------------------------------------
+                            7. ;Subrutin GetPut
+                            8. ;
+                            9. ;Returvärde 
+                           10. ;B = 0..F (hex), tangentkod
+                           11. ;B = FF iom ingen tangent är nedtryckt
+                           12. ;inga nadra register påverkas
+                           13. ;----------------------------------------------
+001005                     14. 	
+001005                     15. GetPut:
+001005 16 10 24            16. 	JSR	CheckKbd_First
+001008 C1 FF               17. 	CMPB	#$FF
+00100A 27 F9               18. 	BEQ	GetPut	
+00100C 86 01               19. 	LDAA	#1
+00100E 7A 09 C2            20. 	STAA	$9C2
+001011 86 D0               21. 	LDAA	#$D0
+001013 7A 09 C3            22. 	STAA	$9C3
+001016 86 00               23. 	LDAA	#0
+001018 7A 09 C2            24. 	STAA	$9C2
+00101B                     25. 	
+00101B 86 08               26. 	LDAA	#8
+00101D                     27. 	
+00101D                     28. loop:
+00101D 7B 09 C3            29. 	STAB	$9C3
+001020 43                  30. 	DECA	
+001021 26 FA               31. 	BNE	loop
+001023 3D                  32. 	RTS
+                           33. 
+                           34. ;----------------tr 1000------------------------------
+                           35. ;Subrutin CheckKbd_First
+                           36. ;Läser tangentbort via ML15
+                           37. ;Returvärde i B
+                           38. ;B = 0..F (hex), tangentkod
+                           39. ;B = FF iom ingen tangent är nedtryckt
+                           40. ;inga nadra register påverkas
+                           41. ;----------------------------------------------
+                           42. 
+001024                     43. CheckKbd_First:	
+001024 F6 09 C0            44. 	LDAB 	$9C0		;Läser av tangentbordet för att kontrollera om någon utav knapparna är nedtryckta,
+001027                     45. 				
+001027 2B 0A               46. 	BMI	ingen_tangent	;Ifall ingen tangent är nedtryckt ses talet som ett negativt tal och hoppar då
+001029 37                  47. 	PSHB
+00102A                     48. ned_tryckt:
+00102A F6 09 C0            49. 	LDAB	$9C0	.	;Här kontrolleras ifall knappen fortfarande är nedtryckt och lopar tills kanppen
+00102D C1 10               50. 	CMPB	#$10		;har släppts för att inte värdet skall ligga kvar och skrivas till B konstant
+00102F 25 F9               51. 	BLO	ned_tryckt	;
+001031 33                  52. 	PULB
+001032 3D                  53. 	RTS
+001033                     54. ingen_tangent:
+001033 C6 FF               55. 	LDAB 	#$FF		;Ingen knappt har tryckts ned: FF --> B
+001035 3D                  56. 	RTS
+                           57. 
+001036                     58. 		
+001036                     59. 			
+001036                     60. 		

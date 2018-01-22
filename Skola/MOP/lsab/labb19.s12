@@ -1,0 +1,42 @@
+;----------------------------------------------------
+;		**labb19.s12**
+;Finslipning av fördröjningsrutin med 250ms delay
+;Delaykonstanten ligger i Labdefs.s12
+;----------------------------------------------------
+	USE	Labdefs.s12
+	#DEFINE	LABBSYSTEM	;Definerar simulator för att få rätt delatkonstant
+	
+	ORG	$1000
+	CLRA
+main:
+	NOP	
+	JSR	labb_delay	;Fördröjningssubrutin
+	CMPA	#8		;Jämför värde för att skifta bit3 1->0 o vice versa
+	BEQ	clear
+	LDAA	#8
+store	STAA	$400		;Skriver till borrens controlregister
+	BRA 	main
+clear	CLRA	
+	BEQ	store
+	
+;-------------------------------------------------------
+;Subrutin: labb_delay: Delayfunktion för labbsystemet som
+;fördröjer efter satt konstant
+;Returvärde: Inget
+;Register som påverkas: X, Y
+;Indata: Delaykonstant från Labdefs.s12
+;-------------------------------------------------------
+
+
+labb_delay:
+		
+DELAY		LDX		#DELAYCONST	;Laddar delaykonstant från Labdefs.s12
+NEXT		LEAX		-1,X		;Minskar delaykonstanten (Yttre loop)
+		LDY		#100		;laddar Y med värde till inre loop
+		
+NEXT2		LEAY		-1,Y		;minskar Y (inre loop)
+		CPY		#0
+		BNE		NEXT2		;loopar tlls Y = 0
+		CPX		#0		;(Yttre loop) Loopar tills X = 0
+		BNE		NEXT
+		RTS				;Slut delay

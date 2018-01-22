@@ -1,0 +1,13 @@
+;
+;	mom13.s12
+;
+InPort	EQU	$600
+OutPort	EQU	$400
+	ORG	$1000
+start:	LDAA	InPort
+	LDAB	#3
+	MUL
+	STAA	OutPort
+	STAB	OutPort+1
+	JMP	start
+	

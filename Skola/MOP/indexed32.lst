@@ -1,0 +1,27 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: indexed32.lst
+                            1. ;
+                            2. ;	indexed.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 CE 30 00             6. 	LDX	#$3000
+001003 F6 06 00             7. start:	LDAB	$600
+001006 C1 09                8. 	CMPB	#9
+001008 23 09                9. 	BLS	ja
+00100A 20 00               10. 	BRA	nej
+                           11. 
+00100C                     12. nej:	LDAA	10,X
+00100E 7A 04 00            13. 	STAA	$400
+001011 20 F0               14. 	BRA	start
+001013                     15. 	
+001013                     16. 	
+001013                     17. ja:	LDAA	B,X
+001015 7A 04 00            18. 	STAA	$400
+001018 20 E9               19. 	BRA	start
+00101A                     20. 	
+003000                     21. 	ORG	$3000
+003000 77 22 5B 6B 2E 6D   22. 	FCB	$77,$22,$5B,$6B,$2E,$6D,$7D,$23,$7F,$2F,$5D       7D 23 7F 2F 5D   

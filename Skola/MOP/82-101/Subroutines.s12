@@ -1,0 +1,77 @@
+;--------------------------------------------------------------
+;		Subroutines.s12
+;--------------------------------------------------------------
+		USE	Labdefs.s12
+		USE	Delay.s12
+;----------------------------------------------------------------
+;		tidigttest					-
+;----------------------------------------------------------------
+DCshadow	RMB	1 	;skuggregister för DrillControl
+;	
+;	ORG	$1000
+;	
+;start:		LDAB	#$FF
+;		STAB	DCshadow
+;		
+;Loop:		LDAB	DipSwitch
+;		JSR	Outzero
+;		
+;		LDAA	DCshadow
+;		STAA	DrillStatus
+;		JMP 	start
+;		
+;---------------------------------------------
+Outzero:	COMB
+		ANDB	DCshadow
+		STAB	DCshadow
+		STAB	DrillControl
+		RTS	
+		
+;---------------------------------------------		
+Outone:		
+		ORAB	DCshadow
+		STAB	DCshadow
+		STAB	DrillControl
+		RTS
+;---------------------------------------------
+MotorStart:	PSHA
+		PSHB
+		LDAA	DCshadow
+		CMPA	#4
+		BEQ	MSklar
+		LDAB	#4
+		JSR	Outone
+		LDAB	#4
+		JSR	Delay
+MSklar:		PULA
+		PULB
+		RTS
+;---------------------------------------------
+MotorStop:	PSHA
+		PSHB
+		LDAB	#4
+		JSR	Outzero
+		PULA
+		PULB
+		RTS
+;---------------------------------------------
+DrillDown:	PSHB
+		LDAB	#8
+		JSR	Outone
+		PULB
+		RTS
+;---------------------------------------------
+DrillUp:	PSHB
+		LDAB	#8
+		JSR	Outzero
+		LDAB	#4
+		JSR	Delay
+		PULB
+		RTS
+;---------------------------------------------
+
+;---------------------------------------------
+;---------------------------------------------
+;---------------------------------------------
+;---------------------------------------------
+;---------------------------------------------

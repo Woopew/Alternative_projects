@@ -1,0 +1,45 @@
+mod:M14:O12:M14.o12
+seg:text:33
+seg:bss:0
+seg:data:0
+seg:rodata:0
+C:text	1B9FF606006B80E680C1402603160000
+C:text	E680B714596B80E6807B040020E41B81
+C:text	3D
+RG:text:M14:0000000E:O:W:_exit:52
+G:text:M14:00000000:_main
+SY:C:M:M14$C:/Users/Lappy/Desktop/Skola/MOP/labb5/XCC/src/M14.c
+SY:C:F:M14:text:_main:00000000:9
+SY:C:X:M14:9:1:text:0
+SY:C:S:F:M14:main:_main:(typ0)(typ0)
+SY:C:S:F:M14:__func__:___func__:(typ11)
+SY:C:S:L:M14:main:c:0:(typ3)
+SY:C:X:M14:12:7:text:2
+SY:C:X:M14:13:23:text:2
+SY:C:X:M14:14:4:text:7
+SY:C:X:M14:15:8:text:D
+SY:C:X:M14:16:12:text:10
+SY:C:X:M14:17:22:text:17
+SY:C:X:M14:19:1:text:1E
+SY:C:Z:M14:19:1:text:1E
+SY:C:E:M14:text:_main:00000021:19
+SY:C:T:  typ0 V (-1)
+SY:C:T:  typ1 L (4)
+SY:C:T:  typ2 l (4)
+SY:C:T:  typ3 C (1)
+SY:C:T:  typ4 c (1)
+SY:C:T:  typ5 S (2)
+SY:C:T:  typ6 s (2)
+SY:C:T:  typ7 g (4)
+SY:C:T:  typ8 G (4)
+SY:C:T:  typ9 h (4)
+SY:C:T:  typ10 R (2)
+SY:C:T:  typ11 I (2)
+SY:C:T:  typ12 i (2)
+SY:C:T:  typ13 E (2)
+SY:C:T:  typ14 F (2)
+SY:C:T:  typ15 P (2)
+SY:C:T: typ2 l (4)
+SY:C:T: typ4 c (1)
+SY:C:T: typ6 s (2)
+e

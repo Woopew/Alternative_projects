@@ -1,0 +1,26 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom30.lst
+                            1. ;
+                            2. ;	mom30.s12
+                            3. ;
+                            4. 
+000000                      5. 	
+000000                      6. 	
+001000                      7. start:	ORG	$1000
+001000 CE 30 00             8. 	LDX	#$3000
+001003                      9. 	LDAA	0,X
+001005                     10. 	LDAA	1,X
+001007                     11. 	LDAA	2,X
+001009                     12. 	LDAA	3,X
+00100B                     13. 	LDAA	4,X
+00100D                     14. 	LDAA	5,X
+00100F                     15. 	LDAA	6,X
+001011                     16. 	LDAA	7,X
+001013                     17. 	LDAA	8,X
+001015                     18. 	LDAA	9,X
+001017                     19. 	
+003000                     20. 	ORG	$3000
+003000 77 22 5B 6B 2E 6D   21. 	FCB	$77,$22,$5B,$6B,$2E,$6D,$7D,$23,$7F,$2F       7D 23 7F 2F      

@@ -1,0 +1,220 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: Subroutines.lst
+                            1. ;--------------------------------------------------------------
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82\Subroutines.s12"
+                            2. ;		Subroutines.s12
+                            3. ;--------------------------------------------------------------
+                            4. 		USE	Labdefs.s12
+---- File: "Labdefs.s12"
+                            5. ;--------------------------------------
+                            6. ;Labdefs.s12
+                            7. ;--------------------------------------
+                            8. 
+                            9. ;--------------------------------------
+                           10. ; ML15 Avsnitt 2
+                           11. ;--------------------------------------
+                           12. 
+       0000 09C0           13. ML15_KeyBoardRegister	EQU	$9C0
+       0000 09C2           14. ML15_DisplayMode	EQU	$9C2
+       0000 09C3           15. ML15_DisplayData	EQU	$9C3
+       0000 0C02           16. ML5_Segments		EQU	$C02
+       0000 0C03           17. ML5_Position		EQU	$C03
+       0000 0C00           18. ML5_Rows		EQU	$C00
+       0000 0C01           19. ML5_Colums		EQU	$C01
+                           20. 
+                           21. ;--------------------------------------
+                           22. ;Skrivare avsnitt 3
+                           23. ;--------------------------------------
+                           24. 
+                           25. ;	ML19 definitioner
+       0000 0DC0           26. ML19_Stat		EQU	$0DC0
+                           27. ;	Kvittera händelse 1	
+       0000 0DC2           28. ML19_AckIrq_1		EQU	$0DC2
+                           29. ;	Nollställ händelse 2
+       0000 0DC3           30. ML19_AckIrq_2		EQU	$0DC3
+                           31. 
+                           32. ;---------------------------------------
+                           33. ;Borr avsnitt 4
+                           34. ;---------------------------------------
+                           35. 
+                           36. ;	Adress till omkopplare och Display Borr
+       0000 0600           37. DipSwitch		EQU	$0600
+       0000 0700           38. HexDisplay		EQU	$0700
+                           39. ;	Adress till borrmaskinens styrregister
+       0000 0400           40. DrillControl		EQU	$0400
+                           41. 
+                           42. ;	Borrmaskinens statusregister
+       0000 0401           43. DrillStatus		EQU	$0401                           44. ;---------------------------------------------
+---- File: "C:\Users\Lappy\Desktop\Skola\MOP\82\Subroutines.s12"
+000000 51                  45. Outzero:	COMB
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 7, ERROR: Undefined symbol 'DCshadow'
+000001 F4 00 00            46. 		ANDB	DCshadow
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 8, ERROR: Undefined symbol 'DCshadow'
+000004 7B 00 00            47. 		STAB	DCshadow
+000007 7B 04 00            48. 		STAB	DrillControl
+00000A 3D                  49. 		RTS	
+                           50. ;---------------------------------------------		
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 12, ERROR: Undefined symbol 'DCshadow'
+00000B FA 00 00            51. Outone:		ORAB	DCshadow
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 13, ERROR: Undefined symbol 'DCshadow'
+00000E 7B 00 00            52. 		STAB	DCshadow
+000011 7B 04 00            53. 		STAB	DrillControl
+000014 3D                  54. 		RTS
+                           55. ;---------------------------------------------
+000015 36                  56. MotorStart:	PSHA
+000016 37                  57. 		PSHB
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 19, ERROR: Undefined symbol 'DCshadow'
+000017 B6 00 00            58. 		LDAA	DCshadow
+00001A 81 04               59. 		CMPA	#4
+00001C 27 0A               60. 		BEQ	MSklar
+00001E C6 04               61. 		LDAB	#4
+000020 16 00 0B            62. 		JSR	Outone
+000023 C6 06               63. 		LDAB	#6
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 25, ERROR: Undefined symbol 'Delay'
+000025 16 00 00            64. 		JSR	Delay
+000028 32                  65. MSklar:		PULA
+000029 33                  66. 		PULB
+00002A 3D                  67. 		RTS
+                           68. ;---------------------------------------------
+00002B 36                  69. MotorStop:	PSHA
+00002C 37                  70. 		PSHB
+00002D C6 04               71. 		LDAB	#4
+00002F 16 00 00            72. 		JSR	Outzero
+000032 32                  73. 		PULA
+000033 33                  74. 		PULB
+000034 3D                  75. 		RTS
+                           76. ;---------------------------------------------
+000035 C6 08               77. DrillDown:	LDAB	#8
+000037 16 00 0B            78. 		JSR	Outone
+00003A 3D                  79. 		RTS
+                           80. ;---------------------------------------------
+00003B C6 08               81. DrillUp:	LDAB	#%00001000
+00003D 16 00 00            82. 		JSR	Outzero
+000040 C6 04               83. 		LDAB	#4
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 45, ERROR: Undefined symbol 'Delay'
+000042 16 00 00            84. 		JSR	Delay
+000045 3D                  85. 		RTS
+                           86. ;---------------------------------------------
+000046 F6 04 01            87. Step:		LDAB	DrillStatus
+000049 C1 03               88. 		CMPB	#3
+00004B 22 13               89. 		BHI	Larmu
+00004D C6 03               90. 		LDAB	#3
+00004F 16 00 0B            91. 		JSR	Outone
+000052 C6 04               92. 		LDAB	#4
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 54, ERROR: Undefined symbol 'Delay'
+000054 16 00 00            93. 		JSR	Delay
+000057 C6 03               94. 		LDAB	#3
+000059 16 00 00            95. 		JSR	Outzero
+00005C C6 01               96. 		LDAB	#1
+00005E 20 07               97. 		BRA	StepKlar
+000060                     98. 		
+000060 C6 02               99. Larmu:		LDAB	#2
+000062 16 00 DD           100. 		JSR	Alarm
+000065 C6 00              101. 		LDAB	#0
+000067                    102. 		
+000067 3D                 103. StepKlar	RTS
+                          104. ;---------------------------------------------
+000068 86 14              105. DrillDownTest:	LDAA	#20
+                          106. 
+00006A F6 04 01           107. NoHoleYet:	LDAB	DrillStatus
+00006D C1 03              108. 		CMPB	#3
+00006F 22 10              109. 		BHI	Hole
+000071 C6 03              110. 		LDAB	#3
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 72, ERROR: Undefined symbol 'Delay'
+000073 16 00 00           111. 		JSR	Delay
+000076 43                 112. 		DECA
+000077 22 F1              113. 		BHI	NoHoleYet
+000079 C6 02              114. 		LDAB	#2
+00007B 16 00 DD           115. 		JSR	Alarm
+00007E C6 00              116. 		LDAB	#0
+000080 3D                 117. 		RTS
+000081                    118. 		
+000081 C6 01              119. Hole:		LDAB	#1
+000083 3D                 120. 		RTS
+                          121. ;---------------------------------------------
+000084 16 00 35           122. DrillHole:	JSR	DrillDown
+000087 16 00 68           123. 		JSR	DrillDownTest
+00008A 37                 124. 		PSHB
+00008B 16 00 3B           125. 		JSR	DrillUp
+00008E 33                 126. 		PULB
+00008F 3D                 127. 		RTS
+                          128. ;---------------------------------------------
+000090 F6 04 01           129. RefPos:		LDAB	DrillStatus
+000093 C4 01              130. 		ANDB	#1
+000095 C1 01              131. 		CMPB	#1
+000097 27 0A              132. 		BEQ	Ref
+000099 16 00 46           133. 		JSR	Step
+00009C C1 01              134. 		CMPB	#1
+00009E 27 F0              135. 		BEQ	RefPos
+0000A0 C6 00              136. 		LDAB	#0
+0000A2 3D                 137. 		RTS
+0000A3                    138. 		
+0000A3 C6 01              139. Ref:		LDAB	#1
+0000A5 3D                 140. 		RTS
+                          141. ;---------------------------------------------
+0000A6 16 00 90           142. DoAuto:		JSR	RefPos
+0000A9 D7                 143. 		TSTB
+0000AA 27 19              144. 		BEQ	InteRef
+0000AC 16 00 15           145. 		JSR	MotorStart
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 107, ERROR: Undefined symbol 'Pattern'
+0000AF CE 00 00           146. 		LDX	#Pattern
+0000B2                    147. 		
+0000B2                    148. Nope:		LDAB	,X
+0000B4 08                 149. 		INX
+0000B5 C1 FF              150. 		CMPB	#$FF
+0000B7 27 0C              151. 		BEQ	InteRef
+0000B9 16 00 C9           152. 		JSR	Nstep
+0000BC D7                 153. 		TSTB
+0000BD 27 06              154. 		BEQ	InteRef
+0000BF 16 00 84           155. 		JSR	DrillHole
+0000C2 D7                 156. 		TSTB
+0000C3 26 ED              157. 		BNE	Nope
+0000C5                    158. 		
+0000C5 16 00 2B           159. InteRef:	JSR	MotorStop
+0000C8 3D                 160. 		RTS
+                          161. ;---------------------------------------------
+0000C9 D7                 162. Nstep:		TSTB
+0000CA 27 0E              163. 		BEQ	Ndone
+0000CC 53                 164. 		DECB
+0000CD 37                 165. 		PSHB
+0000CE 16 00 46           166. 		JSR	Step
+0000D1 D7                 167. 		TSTB
+0000D2 27 03              168. 		BEQ	NFel
+0000D4 33                 169. 		PULB
+0000D5 20 F2              170. 		BRA	Nstep
+0000D7                    171. 		
+0000D7 C6 00              172. NFel:		LDAB	#0
+0000D9 3D                 173. 		RTS
+0000DA                    174. 		
+0000DA C6 01              175. Ndone:		LDAB	#1
+0000DC 3D                 176. 		RTS
+                          177. ;---------------------------------------------
+0000DD                    178. Alarm:		
+0000DD D7                 179. 		TSTB
+0000DE 27 1D              180. 		BEQ	AlarmKlar
+0000E0                    181. 		
+0000E0 37                 182. AlarmLoop:	PSHB
+0000E1 C6 10              183. 		LDAB	#16
+0000E3 16 00 0B           184. 		JSR	Outone
+0000E6 C6 06              185. 		LDAB	#6
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 147, ERROR: Undefined symbol 'Delay'
+0000E8 16 00 00           186. 		JSR	Delay
+0000EB C6 10              187. 		LDAB	#16
+0000ED 16 00 00           188. 		JSR	Outzero
+0000F0 33                 189. 		PULB
+0000F1 53                 190. 		DECB
+0000F2 27 09              191. 		BEQ	AlarmKlar
+0000F4 37                 192. 		PSHB
+0000F5 C6 04              193. 		LDAB	#4
+"C:/Users/Lappy/Desktop/Skola/MOP/82/Subroutines.s12" line 155, ERROR: Undefined symbol 'Delay'
+0000F7 16 00 00           194. 		JSR	Delay
+0000FA 33                 195. 		PULB
+0000FB 20 E3              196. 		BRA	AlarmLoop
+0000FD                    197. 		
+0000FD 3D                 198. AlarmKlar:	RTS
+                          199. ;---------------------------------------------
+
+****** Total Errors: 12

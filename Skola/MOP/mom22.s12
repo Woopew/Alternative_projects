@@ -1,0 +1,15 @@
+;
+;	mom22.s12
+;
+
+Utport	EQU	$400
+Inport	EQU	$600
+
+	ORG	$1000
+	CLRA
+	LDAB	#1
+rotate:	STAA	$400
+	STAB	$401
+	ROLB
+	ROLA
+	JMP	rotate

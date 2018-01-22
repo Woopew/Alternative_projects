@@ -1,0 +1,14 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom35.lst
+                            1. ;
+                            2. ;	mom35.s12
+                            3. ;
+                            4. 
+001000                      5. 	ORG	$1000
+001000 86 AA                6. 	LDAA	#$AA
+001002 36                   7. 	PSHA
+001003 86 55                8. 	LDAA	#$55
+001005 32                   9. 	PULA

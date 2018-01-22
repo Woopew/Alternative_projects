@@ -1,0 +1,19 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom23.lst
+                            1. ;
+                            2. ;	mom23.s12
+                            3. ;
+                            4. 
+001000                      5. 		ORG	$1000
+001000 F6 06 00             6. start:		LDAB	$600
+001003 D7                   7. 		TSTB	
+001004 27 02                8. 		BEQ	JA
+001006 26 04                9. 		BNE	NEJ
+001008 87                  10. JA:		CLRA
+001009 06 10 0E            11. 		JMP	aktivera
+00100C 86 FF               12. NEJ:		LDAA	#$FF
+00100E 7A 04 00            13. aktivera:	STAA	$400
+001011 20 ED               14. 		BRA	start

@@ -1,0 +1,16 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: mom7.lst
+                            1. ;
+                            2. ;	mom1.s12
+                            3. ;
+       0000 0600            4. InPort	EQU	$600
+       0000 0400            5. OutPort	EQU	$400
+001000                      6. 	ORG	$1000
+001000 B6 00 0F             7. start:	LDAA	$0F
+001003 B4 06 00             8. 	ANDA	InPort
+001006 7A 04 00             9. 	STAA	OutPort
+001009 06 10 00            10. 	JMP	start
+00100C                     11. 	

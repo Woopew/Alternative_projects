@@ -1,0 +1,38 @@
+QA12 - MC68HC12 Absolute crossassembler, Version 1.6.3
+(c) GMV 1989-2013
+
+
+File: KeyboardML15.lst
+                            1. ;
+                            2. ;	KeyboardML15.s12
+                            3. ;
+                            4. 
+001000                      5. 		ORG	$1000
+                            6. 
+001000 16 10 0D             7. start:		JSR	CheckKbd_First
+001003                      8. 		;CMPB	#$FF
+001003                      9. 		;BEQ
+001003                     10. 		;NOP
+001003 16 10 08            11. 		JSR	GetKbd_First
+001006 20 F8               12. 		BRA	start
+                           13. ;-----------------------------------			
+001008                     14. GetKbd_First:
+001008 C1 FF               15. 		CMPB	#$FF
+00100A 27 01               16. 		BEQ	CheckKbd_First	
+00100C 3D                  17. 		RTS
+00100D                     18. 			
+00100D F6 09 C0            19. CheckKbd_First:	LDAB	$9C0
+001010 C1 0F               20. 		CMPB	#$0F
+001012 22 0A               21. 		BHI	inget
+001014 37                  22. 		PSHB
+001015                     23. 		
+001015 F6 09 C0            24. knapp_tryck:	LDAB	$9C0
+001018 C1 10               25. 		CMPB	#$10
+00101A 25 F9               26. 		BLO	knapp_tryck
+00101C 33                  27. 		PULB
+00101D 3D                  28. 		RTS
+00101E                     29. 		
+00101E C6 FF               30. inget:		LDAB	#$FF
+001020 3D                  31. 		RTS
+001021                     32. 		
+001021                     33. 			

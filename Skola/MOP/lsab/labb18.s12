@@ -1,0 +1,9 @@
+
+
+
+
+	ORG	$1000
+loop	NOP			;Ge indata till register A
+	STAA	$400		;Skriv till borrmaskin
+	LDAB	$600		;Läs statusregister
+	BRA 	loop
